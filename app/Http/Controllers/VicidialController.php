@@ -83,6 +83,8 @@ class VicidialController extends Controller
         $membersSummaryAll = $this->extractQueueMembersSummary($allCampOutput);
         $cleanOutput = $this->removeAnsiCharacters($output);
 
+
+        // dd($allCampOutput);
         session([
             'campaignIndex' => $campaignIndex,
             'cleanOutput' => $cleanOutput,
@@ -191,8 +193,17 @@ class VicidialController extends Controller
 
     public function refreshTable(Request $request)
     {
-        $selectedCampaign = session('selectedCampaign');
-        $cleanOutput = session('cleanOutput');
+        $campaignIndex = session('campaignIndex');
+        
+        $command = $campaignIndex === count(self::CAMPAIGN_OPTIONS)
+            ? "rasterisk -rx 'queue show' | sort"
+            : "rasterisk -rx 'queue show q{$campaignIndex}' | sort";
+
+        $output = $this->getSSHOutput($command);
+        if (!$output) {
+            return back()->withErrors(['error' => 'Failed to connect to the server.']);
+        }
+        $cleanOutput = $this->removeAnsiCharacters($output);
         $agentDetails = $this->getAgentDetails($cleanOutput);
         
         return view('partials.table', compact('agentDetails'));
