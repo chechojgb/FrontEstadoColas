@@ -49,8 +49,7 @@ class VicidialController extends Controller
         "OUTBOUND",
         "MOVILES-SOPORTE_POSPAGO",
         "ETB RECUPERACION",
-        "T_HOGARES-POSTVENTA_TRASLADOS_COBRE",
-        "ALL CAMPAIGNS"
+        "T_HOGARES-POSTVENTA_TRASLADOS_COBRE"
     ];
 
 
@@ -66,6 +65,7 @@ class VicidialController extends Controller
         $validated = $this->validateCampaign($request);
         $campaignIndex = $validated['campaign'];
         $selectedCampaign = self::CAMPAIGN_OPTIONS[$campaignIndex - 1];
+        // dd($campaignIndex, $selectedCampaign);
 
 
         $command = $campaignIndex === count(self::CAMPAIGN_OPTIONS)
@@ -80,8 +80,10 @@ class VicidialController extends Controller
         
         $allCampOutput = $this->getSSHOutput($allCampaignCommand);
 
-        $membersSummaryAll = $this->extractQueueMembersSummary($allCampOutput);
+        $membersSummaryAll = $this->extractQueueAll($allCampOutput);
+        // dd($membersSummaryAll);
         $cleanOutput = $this->removeAnsiCharacters($output);
+        
 
 
         // dd($allCampOutput);
@@ -148,6 +150,19 @@ class VicidialController extends Controller
         return $matches[0] ?? ['No members summary found.'];
     }
 
+    private function extractQueueAll(string $output): array
+    {
+        $pattern = '/Q(\d+).*?has\s+(\d+)\s+calls/';
+        preg_match_all($pattern, $output, $matches, PREG_SET_ORDER);
+    
+        $result = [];
+        foreach ($matches as $match) {
+            $result[] = "{$match[1]} has {$match[2]} calls";
+        }
+    
+        return !empty($result) ? $result : ['No calls found.'];
+    }
+
     private function getAgentDetails(string $output): array
     {
         $pattern = '/SIP\/(\d+)\s+\((.*?)\)\s+\((.*?)\)/';
@@ -191,10 +206,9 @@ class VicidialController extends Controller
     }
 
 
-    public function refreshTable(Request $request)
+
+    private function getAgentDetailsForCampaign($campaignIndex)
     {
-        $campaignIndex = session('campaignIndex');
-        
         $command = $campaignIndex === count(self::CAMPAIGN_OPTIONS)
             ? "rasterisk -rx 'queue show' | sort"
             : "rasterisk -rx 'queue show q{$campaignIndex}' | sort";
@@ -203,11 +217,35 @@ class VicidialController extends Controller
         if (!$output) {
             return back()->withErrors(['error' => 'Failed to connect to the server.']);
         }
+
         $cleanOutput = $this->removeAnsiCharacters($output);
-        $agentDetails = $this->getAgentDetails($cleanOutput);
-        
+        return $this->getAgentDetails($cleanOutput);
+    }
+
+    public function refreshTable(Request $request)
+    {
+        $campaignIndex = session('campaignIndex');
+        $agentDetails = $this->getAgentDetailsForCampaign($campaignIndex);
+
+        if (is_null($agentDetails)) {
+            return back()->withErrors(['error' => 'Failed to connect to the server.']);
+        }
+
         return view('partials.table', compact('agentDetails'));
     }
+
+    public function refreshStateInfo(Request $request)
+    {
+        $campaignIndex = session('campaignIndex');
+        $agentDetails = $this->getAgentDetailsForCampaign($campaignIndex);
+
+        if (is_null($agentDetails)) {
+            return back()->withErrors(['error' => 'Failed to connect to the server.']);
+        }
+
+        return view('partials.stateInfo', compact('agentDetails'));
+    }
+
     public function refreshQueueDetail(Request $request)
     {
         $campaignIndex = session('campaignIndex');
@@ -225,5 +263,16 @@ class VicidialController extends Controller
         
         return view('partials.queueDetail', compact('callsInQueue'));
     }
+
+    public function refreshAllCampaings(Request $request)
+    {
+        $allCampaignCommand = "rasterisk -rx 'queue show' | sort";  
+        $allCampOutput = $this->getSSHOutput($allCampaignCommand);
+        $membersSummaryAll = $this->extractQueueAll($allCampOutput);
+        
+        return view('partials.allCampaings', compact('membersSummaryAll'));
+    }
+
+    
 
 }

@@ -29,7 +29,7 @@
         <div class="flex flex-1">
 
             <x-dashboard-campaings 
-                title="Select a Campaign" 
+                title="Select a Skill" 
                 :action-route="route('execute.command')" 
                 :campaign-options="App\Http\Controllers\VicidialController::CAMPAIGN_OPTIONS" 
                 :selected-campaign="$selectedCampaign ?? null"
