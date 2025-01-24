@@ -1,4 +1,4 @@
-<tbody>
+<tbody id="agent-table">
     @if (empty($agentDetails))
         <tr>
             <td colspan="10" class="px-6 py-4 text-center">{{__('No data available')}}.</td>

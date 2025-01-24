@@ -22,6 +22,6 @@ Route::get('/campaigns', [VicidialController::class, 'showCampaigns'])->name('ca
 Route::post('/execute', [VicidialController::class, 'executeCommand'])->name('execute.command');
 
 Route::get('/real-time-table-refresh', [VicidialController::class, 'refreshTable'])->name('real-time-table-refresh');
+Route::get('/real-time-stateInfo-refresh', [VicidialController::class, 'refreshStateInfo'])->name('real-time-stateInfo-refresh');
 Route::get('/real-time-queueDetail-refresh', [VicidialController::class, 'refreshQueueDetail'])->name('real-time-queueDetail-refresh');
-// Route::get('/real-time-reports-refresh', [RealtimeReportController::class, 'refreshReports'])->name('real-time-reports-refresh');
-// Route::get('/real-time-userStatus-refresh', [RealtimeReportController::class, 'refreshUserStatus'])->name('real-time-userStatus-refresh');
+Route::get('/real-time-allCampaings-refresh', [VicidialController::class, 'refreshAllCampaings'])->name('real-time-allCampaings-refresh');
