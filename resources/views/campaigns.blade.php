@@ -22,6 +22,40 @@
 
 
 
+{{-- <div class="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+    <div class="flex items-center justify-between mb-4">
+        <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Skills of campaings selected</h5>
+   </div>
+   <div class="flow-root">
+        <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+            <li class="py-3 sm:py-4">
+                <div class="flex items-center">
+                    <div class="shrink-0">
+                        <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-1.jpg" alt="Neil image">
+                    </div>
+                    <div class="flex-1 min-w-0 ms-4">
+                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
+                            1 
+                        </p>
+                        <p class="text-sm text-gray-500 truncate dark:text-gray-400">
+                            email@windster.com
+                        </p>
+                    </div>
+                    <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
+                        $320
+                    </div>
+                </div>
+            </li>
+        </ul>
+   </div>
+</div> --}}
+
+
+
+
+
+
+
  
 <div class="mb-4 border-b border-gray-200 border-gray-700">
     <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
@@ -56,15 +90,18 @@
                             </li>
                         </ul>
                     </div>
-                    <div class="relative w-full">
-                        <input type="search" id="search-dropdown" class="block p-2.5 w-full z-20 text-sm text-gray-900 bg-gray-50 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Search" required />
-                        <button type="button" class="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white bg-blue-700 rounded-e-lg border border-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+                    <div class="relative w-full flex items-center bg-gray-100 rounded-t-lg shadow-sm" style="border-bottom: 1px solid black">
+                        <!-- Botón de la lupa -->
+                        <button type="button" class="p-3 text-gray-800">
                             <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"/>
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                             </svg>
                             <span class="sr-only">Search</span>
                         </button>
+                        <!-- Campo de búsqueda -->
+                        <input type="search" id="search-dropdown" class="block w-full bg-transparent text-gray-800 border-0 focus:ring focus:ring-blue-300 focus:outline-none focus:border-blue-500 transition appearance-none p-3" placeholder="Search" required  />
                     </div>
+                    
                 </div>
             </div>
             
@@ -205,89 +242,138 @@
     
 
     <div class="hidden p-4 rounded-lg bg-gray-50 " id="allCampaings" role="tabpanel" aria-labelledby="allCampaings-tab">
-        
-        
-        
-        <button id="dropdownCheckboxButton" data-dropdown-toggle="dropdownDefaultCheckbox" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">Select a campaing <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+        <button id="dropdownCheckboxButton" data-dropdown-toggle="dropdownDefaultCheckbox" class="text-gray-800 bg-gray-100 border border-transparent rounded-t-lg shadow-sm focus:ring focus:ring-blue-300 focus:outline-none focus:border-blue-500 transition appearance-none flex items-center space-x-3 p-4" style="border-bottom: 1px solid black" type="button">
+            <span>Select a campaign</span>
+            <svg class="w-3 h-3 ml-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
             </svg>
         </button>
         
-        <!-- Dropdown menu -->
+
         <div id="dropdownDefaultCheckbox" class="z-10 hidden w-48 bg-white divide-y divide-gray-100 rounded-lg shadow-sm dark:bg-gray-700 dark:divide-gray-600">
             <ul class="p-3 space-y-3 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownCheckboxButton">
                 <li>
                     <div class="flex items-center">
-                        <input checked id="checkbox-item-1" type="checkbox" data-campaigns="1,2,3,4,5" class="campaign-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                        <input checked id="checkbox-item-1" type="checkbox" data-campaigns="17,18,19,20,21,22,24,25,26" class="campaign-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                         <label for="checkbox-item-1" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Support</label>
                     </div>
                 </li>
                 <li>
                     <div class="flex items-center">
-                        <input checked id="checkbox-item-2" type="checkbox" data-campaigns="6,7,8" class="campaign-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                        <input checked id="checkbox-item-2" type="checkbox" data-campaigns="4,5,6,7,8,9,10,11,12,13,14,15,16,23" class="campaign-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                         <label for="checkbox-item-2" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Formalities</label>
                     </div>
                 </li>
                 <li>
                     <div class="flex items-center">
-                        <input checked id="checkbox-item-3" type="checkbox" data-campaigns="9,10" class="campaign-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                        <input checked id="checkbox-item-3" type="checkbox" data-campaigns="27,28,29,30,31,32,33,34,35,37" class="campaign-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
                         <label for="checkbox-item-3" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Mobiles</label>
                     </div>
                 </li>
-                <!-- Agregar más opciones -->
+                <li>
+                    <div class="flex items-center">
+                        <input checked id="checkbox-item-4" type="checkbox" data-campaigns="1,2,3" class="campaign-checkbox w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                        <label for="checkbox-item-3" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Retention</label>
+                    </div>
+                </li>
             </ul>
         </div>
-    
-    
-
-        <div id="allCampaingsRefresh">
-            @if (empty($membersSummaryAll))
-                <p class="px-6 py-4 text-center">No campaing selected</p>
-            @else
-                @foreach ($membersSummaryAll as $allCampaign)
-                    @php
-                        // Extraemos el ID de la campaña usando una expresión regular
-                        preg_match('/^(\d+)\s/', $allCampaign, $matches);
-                        $campaignId = $matches[1] ?? null;
-                    @endphp
-                    @if ($campaignId)
-                        <p data-id="{{ $campaignId }}">{{ $allCampaign }}</p>
-                    @endif
-                @endforeach
-            @endif
+        <div class="flex flex-col gap-4 p-4">
+            <div class="bg-gray-200 rounded-lg flex-grow overflow-auto max-h-96 p-4">
+                <div class="bg-gray-200 rounded-lg flex-grow overflow-auto max-h-96">
+                    <div class="flex flex-wrap gap-2" id="allCampaingsRefresh">
+                        @if (empty($membersSummaryAll))
+                            <p class="text-gray-500">No campaign selected</p>
+                        @else
+                            @foreach ($membersSummaryAll as $index => $allCampaign)
+                                @php
+                                    // Extraemos el ID de la campaña y la cantidad de llamadas
+                                    preg_match('/^(\d+)\s.*?(\d+) calls$/', $allCampaign, $matches);
+                                    $campaignId = $matches[1] ?? null;
+                                    $calls = isset($matches[2]) ? (int) $matches[2] : 0;
+                
+                                    // Determinamos el color según la cantidad de llamadas
+                                    if ($calls === 0) {
+                                        $bgColor = 'gray-100';
+                                    } elseif ($calls > 0 && $calls <= 3) {
+                                        $bgColor = 'blue-200';
+                                    } else {
+                                        $bgColor = 'red-300';
+                                    }
+                
+                                    // Obtenemos el nombre de la campaña desde las opciones pasadas
+                                    $campaignName = $campaignOptions[$campaignId] ?? "Unknown Campaign";
+                                @endphp
+                                @if ($campaignId)
+                                    <span 
+                                        data-id="{{ $campaignId }}" 
+                                        class="campaign-item bg-{{ $bgColor }} text-{{ $bgColor }}-800 text-sm font-medium px-2.5 py-0.5 rounded-sm dark:bg-{{ $bgColor }}-900 dark:text-{{ $bgColor }}-300"
+                                    >
+                                        {{ $index + 1 }}. {{ $campaignName }} {{ $calls }} calls
+                                    </span>
+                                @endif
+                            @endforeach
+                        @endif
+                    </div>
+                </div>
+                
+            </div>
+            
+            <div class="grid grid-cols-2 gap-4 sm:grid-cols-3">
+                <div class="h-32 bg-gray-200 rounded-lg"></div>
+                <div class="h-32 bg-gray-200 rounded-lg"></div>
+                <div class="h-32 bg-gray-200 rounded-lg"></div>
+                <div class="h-32 bg-gray-200 rounded-lg"></div>
+                <div class="h-32 bg-gray-200 rounded-lg"></div>
+            </div>
         </div>
+        
+        
+        
+        <!-- Dropdown menu -->
+        
+    
 
+        
         <script>
             const checkboxes = document.querySelectorAll(".campaign-checkbox");
-            const campaignElements = document.querySelectorAll("#allCampaingsRefresh p");
-
-            // Escucha los cambios en los checkboxes
-            checkboxes.forEach(checkbox => {
-                checkbox.addEventListener("change", () => {
-                    // Obtener todos los IDs activos de las campañas seleccionadas
-                    const activeCampaigns = Array.from(checkboxes)
-                        .filter(checkbox => checkbox.checked)
-                        .flatMap(checkbox => checkbox.dataset.campaigns.split(",").map(Number)); // Convertimos a números
-
-                    // Mostrar/ocultar las campañas dinámicamente
-                    campaignElements.forEach(campaignElement => {
-                        const campaignId = parseInt(campaignElement.dataset.id, 10); // ID como número
-                        if (activeCampaigns.includes(campaignId)) {
-                            campaignElement.style.display = "block";
-                        } else {
-                            campaignElement.style.display = "none";
-                        }
+            const campaignContainer = document.querySelector("#allCampaingsRefresh");
+            
+            // Función para inicializar la visibilidad de los elementos dinámicos
+            const initializeFilter = () => {
+                const campaignElements = campaignContainer.querySelectorAll(".campaign-item");
+        
+                checkboxes.forEach(checkbox => {
+                    checkbox.addEventListener("change", () => {
+                        // Obtener todos los IDs activos de las campañas seleccionadas
+                        const activeCampaigns = Array.from(checkboxes)
+                            .filter(checkbox => checkbox.checked)
+                            .flatMap(checkbox => checkbox.dataset.campaigns.split(",").map(Number)); // Convertimos a números
+        
+                        // Mostrar/ocultar las campañas dinámicamente
+                        campaignElements.forEach(campaignElement => {
+                            const campaignId = parseInt(campaignElement.dataset.id, 10); // ID como número
+                            if (activeCampaigns.includes(campaignId)) {
+                                campaignElement.style.display = "inline-block";
+                            } else {
+                                campaignElement.style.display = "none";
+                            }
+                        });
                     });
                 });
-            });
-
-            // Inicializa mostrando todas las campañas
-            checkboxes.forEach(checkbox => checkbox.dispatchEvent(new Event("change")));
+        
+                // Inicializa mostrando todas las campañas
+                checkboxes.forEach(checkbox => checkbox.dispatchEvent(new Event("change")));
+            };
+        
+            // Reejecutar el filtro después del refresh
+            document.addEventListener("DOMContentLoaded", initializeFilter);
         </script>
+        
     </div>
 </div>
 
-<script>
+{{-- <script>
     document.getElementById('search-dropdown').addEventListener('input', function () {
         const query = this.value.toLowerCase();
         const rows = document.querySelectorAll('#agent-table tr');
@@ -299,7 +385,7 @@
             row.style.display = rowContent.includes(query) ? '' : 'none';
         });
     });
-</script>
+</script> --}}
 
 @endsection
 
@@ -308,7 +394,7 @@
 
 
 <script>
-    const REFRESH_RATE = 60;
+    const REFRESH_RATE = 8;
     console.log(REFRESH_RATE);
     
     let secondsPassed = 0;
@@ -318,13 +404,12 @@
     }, 1000);
 
     document.addEventListener('DOMContentLoaded', function () {
-        let searchValue = ''; // Variable para guardar el valor del filtro
+        let searchValue = '';
 
-        // Escuchar el cambio del input de búsqueda
         const searchInput = document.querySelector('#search-dropdown');
         searchInput.addEventListener('input', function () {
-            searchValue = searchInput.value; // Guardar el valor del filtro
-            filterTable(); // Aplicar el filtro en tiempo real
+            searchValue = searchInput.value; 
+            filterTable(); 
         });
 
         // Función para aplicar el filtro
@@ -348,7 +433,6 @@
                 const tableContent = await response.text();
                 document.querySelector('#agent-table').innerHTML = tableContent;
 
-                // Reaplicar el filtro después del refresh
                 filterTable();
                 console.log('Tabla actualizada');
             } catch (error) {
@@ -383,19 +467,100 @@
             }
         }
 
+    
+
+
+
+        function assignCheckboxEvents() {
+            const checkboxes = document.querySelectorAll(".campaign-checkbox");
+            const campaignElements = document.querySelectorAll(".campaign-item"); // Cambiado a ".campaign-item" para span dinámicos
+
+            // Escucha los cambios en los checkboxes
+            checkboxes.forEach(checkbox => {
+                checkbox.addEventListener("change", () => {
+                    // Obtener todos los IDs activos de las campañas seleccionadas
+                    const activeCampaigns = Array.from(checkboxes)
+                        .filter(checkbox => checkbox.checked)
+                        .flatMap(checkbox => checkbox.dataset.campaigns.split(",").map(Number)); // Convertimos a números
+
+                    // Mostrar/ocultar las campañas dinámicamente
+                    campaignElements.forEach(campaignElement => {
+                        const campaignId = parseInt(campaignElement.dataset.id, 10); // ID como número
+                        if (activeCampaigns.includes(campaignId)) {
+                            campaignElement.style.display = "inline-block";
+                        } else {
+                            campaignElement.style.display = "none";
+                        }
+                    });
+                });
+            });
+
+            // Inicializa mostrando todas las campañas
+            checkboxes.forEach(checkbox => checkbox.dispatchEvent(new Event("change")));
+        }
+
+
+        // Guarda la selección de los checkboxes
+        function saveCheckboxState() {
+            const checkboxes = document.querySelectorAll(".campaign-checkbox");
+            const selectedCampaigns = [];
+
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    selectedCampaigns.push(checkbox.id); // Usa el ID del checkbox como referencia
+                }
+            });
+
+            // Guarda los IDs de los checkboxes seleccionados en localStorage
+            localStorage.setItem("selectedCampaigns", JSON.stringify(selectedCampaigns));
+        }
+
+        // Restaura el estado de los checkboxes
+        function restoreCheckboxState() {
+            const selectedCampaigns = JSON.parse(localStorage.getItem("selectedCampaigns")) || [];
+
+            const checkboxes = document.querySelectorAll(".campaign-checkbox");
+
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectedCampaigns.includes(checkbox.id);
+            });
+        }
+
+        // Llama a saveCheckboxState cada vez que cambie un checkbox
+        document.querySelectorAll(".campaign-checkbox").forEach(checkbox => {
+            checkbox.addEventListener("change", saveCheckboxState);
+        });
+
+        // Llama a restoreCheckboxState después de cargar las campañas
         async function loadAllCampaings() {
             try {
                 const response = await fetch('/real-time-allCampaings-refresh');
-                if (!response.ok) throw new Error('Error al cargar los  allCampaings');
-                if (response.ok) {
-                    console.log('allCampaings actualizados');
-                }
-                const iconContent = await response.text(); // Obtén el HTML como texto
+                if (!response.ok) throw new Error('Error al cargar los allCampaings');
+                
+                // Obtén el HTML del nuevo contenido
+                const iconContent = await response.text();
+                
+                // Reemplaza el contenido del contenedor
                 document.querySelector('#allCampaingsRefresh').innerHTML = iconContent;
+
+                console.log('allCampaings actualizados');
+
+                // Restaurar el estado de los checkboxes después de la actualización
+                restoreCheckboxState();
+
+                // Reasignar eventos a los nuevos elementos
+                assignCheckboxEvents();
+
+                // Aplicar el filtro inicial
+                document.querySelectorAll(".campaign-checkbox").forEach(checkbox => {
+                    checkbox.dispatchEvent(new Event("change"));
+                });
             } catch (error) {
-                console.error('Error al actualizar los stateInfo:', error);
+                console.error('Error al actualizar los allCampaings:', error);
             }
         }
+
+
 
         
         function loadContent() {
