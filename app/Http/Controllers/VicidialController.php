@@ -104,7 +104,8 @@ class VicidialController extends Controller
             'agentDetails' => $agentDetails,
             'callsInQueue' => $callsInQueue,
             'queueMembersSummary' => $queueMembersSummary,
-            'membersSummaryAll' => $membersSummaryAll
+            'membersSummaryAll' => $membersSummaryAll,
+            'campaignOptions' => VicidialController::CAMPAIGN_OPTIONS,
         ]);
     }
 
@@ -269,8 +270,10 @@ class VicidialController extends Controller
         $allCampaignCommand = "rasterisk -rx 'queue show' | sort";  
         $allCampOutput = $this->getSSHOutput($allCampaignCommand);
         $membersSummaryAll = $this->extractQueueAll($allCampOutput);
+        $campaignOptions = VicidialController::CAMPAIGN_OPTIONS;
+
         
-        return view('partials.allCampaings', compact('membersSummaryAll'));
+        return view('partials.allCampaings', compact('membersSummaryAll', 'campaignOptions'));
     }
 
     
