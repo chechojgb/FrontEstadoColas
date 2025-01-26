@@ -56,6 +56,7 @@
 
 
 
+
  
 <div class="mb-4 border-b border-gray-200 border-gray-700">
     <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
@@ -73,33 +74,18 @@
         <!-- Contenedor de la tabla -->
         <div class="w-full pr-4" >
             
-            <div class="max-w-lg mx-auto mb-8">
+            <div class="max-w-lg ml-auto mb-4">
                 <div class="flex">
-                    <label for="search-dropdown" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Your Email</label>
-                    
-                    <div id="dropdown" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                        <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdown-button">
-                            <li>
-                                <button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="selectOption('Extension')">Extension</button>
-                            </li>
-                            <li>
-                                <button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="selectOption('User name')">User name</button>
-                            </li>
-                            <li>
-                                <button type="button" class="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white" onclick="selectOption('State in asterisk')">State in asterisk</button>
-                            </li>
-                        </ul>
-                    </div>
+                    {{-- Busqueda --}}
                     <div class="relative w-full flex items-center bg-gray-100 rounded-t-lg shadow-sm" style="border-bottom: 1px solid black">
-                        <!-- Botón de la lupa -->
                         <button type="button" class="p-3 text-gray-800">
                             <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
                             </svg>
                             <span class="sr-only">Search</span>
                         </button>
-                        <!-- Campo de búsqueda -->
                         <input type="search" id="search-dropdown" class="block w-full bg-transparent text-gray-800 border-0 focus:ring focus:ring-blue-300 focus:outline-none focus:border-blue-500 transition appearance-none p-3" placeholder="Search" required  />
+                       <x-info-popover/>
                     </div>
                     
                 </div>
@@ -163,78 +149,179 @@
         </div>
     
 
-        <div class="relative mx-auto border-gray-800 dark:border-gray-800 bg-gray-800 border-[14px] rounded-xl h-[600px] w-[300px] shadow-xl">
-            <div class="mb-6">
-                <div class="w-[148px] h-[18px] bg-gray-800 top-0 rounded-b-[1rem] left-1/2 -translate-x-1/2 absolute"></div>
-                <div class="h-[32px] w-[3px] bg-gray-800 absolute -start-[17px] top-[72px] rounded-s-lg"></div>
-                <div class="h-[46px] w-[3px] bg-gray-800 absolute -start-[17px] top-[124px] rounded-s-lg"></div>
-                <div class="h-[46px] w-[3px] bg-gray-800 absolute -start-[17px] top-[178px] rounded-s-lg"></div>
-                <div class="h-[64px] w-[3px] bg-gray-800 absolute -end-[17px] top-[142px] rounded-e-lg"></div>
-        
-                <div class="rounded-xl overflow-hidden w-[272px] h-[572px] bg-white dark:bg-gray-800 p-4">
-
-                    <h2 class="text-xl font-bold text-gray-900 dark:text-white">Queue details</h2>
-                    <p class="mt-4 text-sm text-gray-600 dark:text-gray-300">
-                        Here you can view all details about the current campaign. If you need to make changes or get more information, please follow the links below.
-                    </p>
-
-                    <a href="#" class="mt-4 inline-block text-blue-600 dark:text-blue-400 hover:text-blue-800">Learn more about the campaign</a>
+        <div class="relative mx-auto">
+            <div role="tooltip" class="relative z-10  bg-white border border-gray-200 rounded-lg shadow-sm   z-950 inline-block max-w-xs p-4 border border-gray-300 rounded-lg shadow-md bg-white">
+                <!-- Icono posicionado fuera del contenedor -->
+                <div class="absolute -top-6 bottom-1/2 transform -translate-x-1/2 flex justify-center items-center w-12 h-12 rounded-full bg-[#00acc1] border border-gray-300" style="top: -15px; left: 20%">
+                    <img src="{{ asset('images/vector.png') }}" alt="">
+                </div>
+                <!-- Título -->
+                <h2 class="text-center text-lg font-semibold text-gray-800 mb-1 mt-6">Queue details</h2>
+                <p class="text-center text-sm text-gray-600 font-medium mb-4">
+                    Here you can view all details about the current campaign. If you need to make changes or get more information, please follow the links below.
+                </p>
+                <p class="text-center text-sm text-blue-500 mb-4">Learn more about the skill <i class="fas fa-info-circle"></i></p>
+                <!-- Información -->
+                <div class="text-sm text-gray-700 space-y-2">
                     <div class="mt-6" id="queueDetail">
                         
                         @if (empty($callsInQueue))
                             <p  class="px-6 py-4 text-center text-white">{{__('No data available')}}.</p>
                         @else
                             @foreach ($callsInQueue as $call)
-                                <li class="text-white">{{ $call }}</li>
+                                <li class="text-black">{{ $call }}</li>
                                 <br>
                             @endforeach
                         @endif
                     </div>
                 </div>
+                <div class="my-4 border-t border-gray-300"></div>
+                <!-- Acciones -->
+                {{-- <div class="flex justify-between mt-4 text-gray-600">
+                    <button class="flex items-center space-x-2 text-sm hover:text-blue-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 12c2.28 0 4-1.72 4-4s-1.72-4-4-4-4 1.72-4 4 1.72 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                        </svg>
+                        <span>Ver</span>
+                    </button>
+                    <button class="flex items-center space-x-2 text-sm hover:text-blue-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M19.14 7.64l-3.79-3.79-8.73 8.73 3.79 3.79 8.73-8.73zM4.73 19.27l.7.7 3.79-3.79-1.44-1.44-3.05 3.05v1.48z" />
+                        </svg>
+                        <span>Editar</span>
+                    </button>
+                    <button class="flex items-center space-x-2 text-sm hover:text-blue-500">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 12c2.28 0 4-1.72 4-4s-1.72-4-4-4-4 1.72-4 4 1.72 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
+                        </svg>
+                        <span>Gestionar</span>
+                    </button>
+                </div> --}}
             </div>
 
             
             <div id="stateInfo">
-                <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
-                    @php
-                        $countInCall = !empty($agentDetails) ? collect($agentDetails)->filter(function ($agent) {
-                            return isset($agent['state']) && $agent['state'] === 'in call';
-                        })->count() : 0;
-                    @endphp 
-                    {{$countInCall}} Users in state: <span class="font-medium">In call!</span> 
+
+                <div class="relative flex flex-col min-w-0 break-words bg-white shadow-md rounded-2xl bg-clip-border cursor-pointer hover:shadow-xl hover:bg-blue-100 transition-all duration-300 mt-2 mb-2">
+                    <div class="flex-auto p-4">
+                    <div class="flex flex-row -mx-3">
+                        <div class="flex items-center justify-center w-12 h-12 bg-[#50d71e] rounded-full text-white text-xl  mr-4 ml-2" style="background-color: #51B0CB">
+                            <img src="{{ asset('images/vector.png') }}" alt="">
+                        </div>
+                        @php
+                            $countInCall = !empty($agentDetails) ? collect($agentDetails)->filter(function ($agent) {
+                                return isset($agent['state']) && $agent['state'] === 'in call';
+                            })->count() : 0;
+                        @endphp 
+                        
+                        <div class="flex-none w-2/3 max-w-full px-3">
+                        <div>
+                            <p class="mb-0 font-sans text-sm font-semibold leading-normal font-poppins text-gray-400">Users in state</p>
+                            <h5 class="mb-0 font-poppins">{{$countInCall}}
+                            <span class="text-sm leading-normal font-weight-bolder text-black font-poppins text-blue-300">In call!</span>
+                            </h5>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
                 </div>
-                <div class="p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400" role="alert">
-                    @php
-                        $countOnHold = !empty($agentDetails) ? collect($agentDetails)->filter(function ($agent) {
-                            return isset($agent['state']) && $agent['state'] === 'On Hold';
-                        })->count() : 0;
-                    @endphp 
-                    {{$countOnHold}} Users in state: <span class="font-medium">On hold.</span>
+
+                <div class="relative flex flex-col min-w-0 break-words bg-white shadow-md rounded-2xl bg-clip-border cursor-pointer hover:shadow-xl hover:bg-blue-100 transition-all duration-300 mt-2 mb-2">
+                    <div class="flex-auto p-4">
+                    <div class="flex flex-row -mx-3">
+                        <div class="flex items-center justify-center w-12 h-12 bg-[#50d71e] rounded-full text-white text-xl  mr-4 ml-2" style="background-color: #51B0CB">
+                            <img src="{{ asset('images/vector.png') }}" alt="">
+                        </div>
+                        @php
+                            $countOnHold = !empty($agentDetails) ? collect($agentDetails)->filter(function ($agent) {
+                                return isset($agent['state']) && $agent['state'] === 'On Hold';
+                            })->count() : 0;
+                        @endphp 
+                        
+                        <div class="flex-none w-2/3 max-w-full px-3">
+                        <div>
+                            <p class="mb-0 font-sans text-sm font-semibold leading-normal font-poppins text-gray-400">Users in state</p>
+                            <h5 class="mb-0 font-poppins">{{$countOnHold}}
+                            <span class="text-sm leading-normal font-weight-bolder text-black font-poppins text-red-300">On hold.</span>
+                            </h5>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
                 </div>
-                <div class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400" role="alert">
-                    @php
-                        $countBusy = !empty($agentDetails) ? collect($agentDetails)->filter(function ($agent) {
-                            return isset($agent['state']) && $agent['state'] === 'Busy';
-                        })->count() : 0;
-                    @endphp 
-                    {{$countBusy}} Users in state: <span class="font-medium">Busy.</span>
+
+                <div class="relative flex flex-col min-w-0 break-words bg-white shadow-md rounded-2xl bg-clip-border cursor-pointer hover:shadow-xl hover:bg-blue-100 transition-all duration-300 mt-2 mb-2">
+                    <div class="flex-auto p-4">
+                    <div class="flex flex-row -mx-3">
+                        <div class="flex items-center justify-center w-12 h-12 bg-[#50d71e] rounded-full text-white text-xl  mr-4 ml-2" style="background-color: #51B0CB">
+                            <img src="{{ asset('images/vector.png') }}" alt="">
+                        </div>
+                        @php
+                            $countBusy = !empty($agentDetails) ? collect($agentDetails)->filter(function ($agent) {
+                                return isset($agent['state']) && $agent['state'] === 'Busy';
+                            })->count() : 0;
+                        @endphp  
+                        
+                        <div class="flex-none w-2/3 max-w-full px-3">
+                        <div>
+                            <p class="mb-0 font-sans text-sm font-semibold leading-normal font-poppins text-gray-400">Users in state</p>
+                            <h5 class="mb-0 font-poppins">{{$countBusy}}
+                            <span class="text-sm leading-normal font-weight-bolder text-black font-poppins text-green-300">Busy.</span>
+                            </h5>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
                 </div>
-                <div class="p-4 mb-4 text-sm text-yellow-800 rounded-lg bg-yellow-50 dark:bg-gray-800 dark:text-yellow-300" role="alert">
-                    @php
-                        $countNotInUse = !empty($agentDetails) ? collect($agentDetails)->filter(function ($agent) {
-                            return isset($agent['state']) && $agent['state'] === 'Not in use';
-                        })->count() : 0;
-                    @endphp 
-                    {{ $countNotInUse }} Users in state: <span class="font-medium">Not in use!</span>
+
+                <div class="relative flex flex-col min-w-0 break-words bg-white shadow-md rounded-2xl bg-clip-border cursor-pointer hover:shadow-xl hover:bg-blue-100 transition-all duration-300 mt-2 mb-2">
+                    <div class="flex-auto p-4">
+                    <div class="flex flex-row -mx-3">
+                        <div class="flex items-center justify-center w-12 h-12 bg-[#50d71e] rounded-full text-white text-xl  mr-4 ml-2" style="background-color: #51B0CB">
+                            <img src="{{ asset('images/vector.png') }}" alt="">
+                        </div>
+                        @php
+                            $countNotInUse = !empty($agentDetails) ? collect($agentDetails)->filter(function ($agent) {
+                                return isset($agent['state']) && $agent['state'] === 'Not in use';
+                            })->count() : 0;
+                        @endphp 
+                        
+                        <div class="flex-none w-2/3 max-w-full px-3">
+                        <div>
+                            <p class="mb-0 font-sans text-sm font-semibold leading-normal font-poppins text-gray-400">Users in state</p>
+                            <h5 class="mb-0 font-poppins">{{$countNotInUse}}
+                            <span class="text-sm leading-normal font-weight-bolder text-black font-poppins text-gray-800">Not in use!</span>
+                            </h5>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
                 </div>
-                <div class="p-4 text-sm text-gray-800 rounded-lg bg-gray-50 dark:bg-gray-800 dark:text-gray-300" role="alert">
-                    @php
-                        $countInRinging = !empty($agentDetails) ? collect($agentDetails)->filter(function ($agent) {
-                            return isset($agent['state']) && $agent['state'] === 'Ringing';
-                        })->count() : 0;
-                    @endphp 
-                    {{$countInRinging}} Users in state: <span class="font-medium">Ringing!</span>
+
+                <div class="relative flex flex-col min-w-0 break-words bg-white shadow-md rounded-2xl bg-clip-border cursor-pointer hover:shadow-xl hover:bg-blue-100 transition-all duration-300 mt-2 mb-2">
+                    <div class="flex-auto p-4">
+                    <div class="flex flex-row -mx-3">
+                        <div class="flex items-center justify-center w-12 h-12 bg-[#50d71e] rounded-full text-white text-xl  mr-4 ml-2" style="background-color: #51B0CB">
+                            <img src="{{ asset('images/vector.png') }}" alt="">
+                        </div>
+                        @php
+                            $countInRinging = !empty($agentDetails) ? collect($agentDetails)->filter(function ($agent) {
+                                return isset($agent['state']) && $agent['state'] === 'Ringing';
+                            })->count() : 0;
+                        @endphp 
+                        
+                        <div class="flex-none w-2/3 max-w-full px-3">
+                        <div>
+                            <p class="mb-0 font-sans text-sm font-semibold leading-normal font-poppins text-gray-400">Users in state</p>
+                            <h5 class="mb-0 font-poppins">{{$countInRinging}}
+                            <span class="text-sm leading-normal font-weight-bolder text-black font-poppins text-gray-300">Ringing!</span>
+                            </h5>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
                 </div>
+                
             </div>
         </div>
         
@@ -335,7 +422,7 @@
     
 
         
-        <script>
+        {{-- <script>
             const checkboxes = document.querySelectorAll(".campaign-checkbox");
             const campaignContainer = document.querySelector("#allCampaingsRefresh");
             
@@ -368,7 +455,7 @@
         
             // Reejecutar el filtro después del refresh
             document.addEventListener("DOMContentLoaded", initializeFilter);
-        </script>
+        </script> --}}
         
     </div>
 </div>
@@ -392,7 +479,7 @@
 
 
 
-
+{{-- 
 <script>
     const REFRESH_RATE = 8;
     console.log(REFRESH_RATE);
@@ -572,4 +659,4 @@
 
         setInterval(loadContent, REFRESH_RATE * 1000); 
     });
-</script>
+</script> --}}

@@ -1,7 +1,7 @@
 <div class="mt-6" id="queueDetail">
                   
     @foreach ($callsInQueue as $call)
-        <li class="text-white">{{ $call }}</li>
+        <li class="text-black">{{ $call }}</li>
         <br>
     @endforeach
 
