@@ -1,62 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
-
-{{-- <section class="fixed max-w-md p-4 mx-auto bg-white border border-gray-200 dark:bg-gray-800 left-12 bottom-16 dark:border-gray-700 rounded-2xl">
-    <h2 class="font-semibold text-gray-800 dark:text-white">🍪 Cookie Notice</h2>
-
-    <p class="mt-4 text-sm text-gray-600 dark:text-gray-300">We use cookies to ensure that we give you the best experience on our website. <a href="#" class="text-blue-500 hover:underline">Read cookies policies</a>. </p>
-    
-    <div class="flex items-center justify-between mt-4 gap-x-4 shrink-0">
-        <button class="text-xs text-gray-800 underline transition-colors duration-300 dark:text-white dark:hover:text-gray-400 hover:text-gray-600 focus:outline-none">
-            Manage your preferences
-        </button>
-
-        <button class=" text-xs bg-gray-900 font-medium rounded-lg hover:bg-gray-700 text-white px-4 py-2.5 duration-300 transition-colors focus:outline-none">
-            Accept
-        </button>
-    </div>
-</section> --}}
-
-
-
-
-{{-- <div class="w-full max-w-md p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700">
-    <div class="flex items-center justify-between mb-4">
-        <h5 class="text-xl font-bold leading-none text-gray-900 dark:text-white">Skills of campaings selected</h5>
-   </div>
-   <div class="flow-root">
-        <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
-            <li class="py-3 sm:py-4">
-                <div class="flex items-center">
-                    <div class="shrink-0">
-                        <img class="w-8 h-8 rounded-full" src="/docs/images/people/profile-picture-1.jpg" alt="Neil image">
-                    </div>
-                    <div class="flex-1 min-w-0 ms-4">
-                        <p class="text-sm font-medium text-gray-900 truncate dark:text-white">
-                            1 
-                        </p>
-                        <p class="text-sm text-gray-500 truncate dark:text-gray-400">
-                            email@windster.com
-                        </p>
-                    </div>
-                    <div class="inline-flex items-center text-base font-semibold text-gray-900 dark:text-white">
-                        $320
-                    </div>
-                </div>
-            </li>
-        </ul>
-   </div>
-</div> --}}
-
-
-
-
-
-
-
-
  
 <div class="mb-4 border-b border-gray-200 border-gray-700">
     <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
@@ -71,12 +15,12 @@
 </div>
 <div id="default-tab-content">
     <div class="flex p-4 rounded-lg bg-gray-50 " id="profile" role="tabpanel" aria-labelledby="profile-tab">
-        <!-- Contenedor de la tabla -->
+        <!-- Table Container -->
         <div class="w-full pr-4" >
             
             <div class="max-w-lg ml-auto mb-4">
                 <div class="flex">
-                    {{-- Busqueda --}}
+                    {{-- Searchh --}}
                     <div class="relative w-full flex items-center bg-gray-100 rounded-t-lg shadow-sm" style="border-bottom: 1px solid black">
                         <button type="button" class="p-3 text-gray-800">
                             <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -148,7 +92,7 @@
             </table>
         </div>
     
-
+        {{-- Queue Information Container --}}
         <div class="relative mx-auto">
             <div role="tooltip" class="relative z-10  bg-white border border-gray-200 rounded-lg shadow-sm   z-950 inline-block max-w-xs p-4 border border-gray-300 rounded-lg shadow-md bg-white">
                 <!-- Icono posicionado fuera del contenedor -->
@@ -176,151 +120,32 @@
                     </div>
                 </div>
                 <div class="my-4 border-t border-gray-300"></div>
-                <!-- Acciones -->
-                {{-- <div class="flex justify-between mt-4 text-gray-600">
-                    <button class="flex items-center space-x-2 text-sm hover:text-blue-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 12c2.28 0 4-1.72 4-4s-1.72-4-4-4-4 1.72-4 4 1.72 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                        </svg>
-                        <span>Ver</span>
-                    </button>
-                    <button class="flex items-center space-x-2 text-sm hover:text-blue-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M19.14 7.64l-3.79-3.79-8.73 8.73 3.79 3.79 8.73-8.73zM4.73 19.27l.7.7 3.79-3.79-1.44-1.44-3.05 3.05v1.48z" />
-                        </svg>
-                        <span>Editar</span>
-                    </button>
-                    <button class="flex items-center space-x-2 text-sm hover:text-blue-500">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M12 12c2.28 0 4-1.72 4-4s-1.72-4-4-4-4 1.72-4 4 1.72 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                        </svg>
-                        <span>Gestionar</span>
-                    </button>
-                </div> --}}
             </div>
 
             
             <div id="stateInfo">
 
-                <div class="relative flex flex-col min-w-0 break-words bg-white shadow-md rounded-2xl bg-clip-border cursor-pointer hover:shadow-xl hover:bg-blue-100 transition-all duration-300 mt-2 mb-2">
-                    <div class="flex-auto p-4">
-                    <div class="flex flex-row -mx-3">
-                        <div class="flex items-center justify-center w-12 h-12 bg-[#50d71e] rounded-full text-white text-xl  mr-4 ml-2" style="background-color: #51B0CB">
-                            <img src="{{ asset('images/vector.png') }}" alt="">
-                        </div>
-                        @php
-                            $countInCall = !empty($agentDetails) ? collect($agentDetails)->filter(function ($agent) {
-                                return isset($agent['state']) && $agent['state'] === 'in call';
-                            })->count() : 0;
-                        @endphp 
-                        
-                        <div class="flex-none w-2/3 max-w-full px-3">
-                        <div>
-                            <p class="mb-0 font-sans text-sm font-semibold leading-normal font-poppins text-gray-400">Users in state</p>
-                            <h5 class="mb-0 font-poppins">{{$countInCall}}
-                            <span class="text-sm leading-normal font-weight-bolder text-black font-poppins text-blue-300">In call!</span>
-                            </h5>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
+                @php
+                    $countInCall = !empty($agentDetails) ? collect($agentDetails)->filter(fn($agent) => $agent['state'] === 'in call')->count() : 0;
+                    $countOnHold = !empty($agentDetails) ? collect($agentDetails)->filter(fn($agent) => $agent['state'] === 'On Hold')->count() : 0;
+                    $countBusy = !empty($agentDetails) ? collect($agentDetails)->filter(fn($agent) => $agent['state'] === 'Busy')->count() : 0;
+                    $countNotInUse = !empty($agentDetails) ? collect($agentDetails)->filter(fn($agent) => $agent['state'] === 'Not in use')->count() : 0;
+                    $countRinging = !empty($agentDetails) ? collect($agentDetails)->filter(fn($agent) => $agent['state'] === 'Ringing')->count() : 0;
+                    $colors = [
+                        'in call' => '#4A90E2',
+                        'On Hold' => '#E74C3C',
+                        'Busy' => '#F1C40F',
+                        'Not in use' => '#2ECC71',
+                        'Ringing' => '#c2c2c2',
+                    ];
+                @endphp
 
-                <div class="relative flex flex-col min-w-0 break-words bg-white shadow-md rounded-2xl bg-clip-border cursor-pointer hover:shadow-xl hover:bg-blue-100 transition-all duration-300 mt-2 mb-2">
-                    <div class="flex-auto p-4">
-                    <div class="flex flex-row -mx-3">
-                        <div class="flex items-center justify-center w-12 h-12 bg-[#50d71e] rounded-full text-white text-xl  mr-4 ml-2" style="background-color: #51B0CB">
-                            <img src="{{ asset('images/vector.png') }}" alt="">
-                        </div>
-                        @php
-                            $countOnHold = !empty($agentDetails) ? collect($agentDetails)->filter(function ($agent) {
-                                return isset($agent['state']) && $agent['state'] === 'On Hold';
-                            })->count() : 0;
-                        @endphp 
-                        
-                        <div class="flex-none w-2/3 max-w-full px-3">
-                        <div>
-                            <p class="mb-0 font-sans text-sm font-semibold leading-normal font-poppins text-gray-400">Users in state</p>
-                            <h5 class="mb-0 font-poppins">{{$countOnHold}}
-                            <span class="text-sm leading-normal font-weight-bolder text-black font-poppins text-red-300">On hold.</span>
-                            </h5>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
+                <x-state-agent-card :count="$countInCall" state="in call" :colors="$colors" />
+                <x-state-agent-card :count="$countOnHold" state="On Hold" :colors="$colors" />
+                <x-state-agent-card :count="$countBusy" state="Busy" :colors="$colors" />
+                <x-state-agent-card :count="$countNotInUse" state="Not in use" :colors="$colors" />
+                <x-state-agent-card :count="$countRinging" state="Ringing" :colors="$colors" />
 
-                <div class="relative flex flex-col min-w-0 break-words bg-white shadow-md rounded-2xl bg-clip-border cursor-pointer hover:shadow-xl hover:bg-blue-100 transition-all duration-300 mt-2 mb-2">
-                    <div class="flex-auto p-4">
-                    <div class="flex flex-row -mx-3">
-                        <div class="flex items-center justify-center w-12 h-12 bg-[#50d71e] rounded-full text-white text-xl  mr-4 ml-2" style="background-color: #51B0CB">
-                            <img src="{{ asset('images/vector.png') }}" alt="">
-                        </div>
-                        @php
-                            $countBusy = !empty($agentDetails) ? collect($agentDetails)->filter(function ($agent) {
-                                return isset($agent['state']) && $agent['state'] === 'Busy';
-                            })->count() : 0;
-                        @endphp  
-                        
-                        <div class="flex-none w-2/3 max-w-full px-3">
-                        <div>
-                            <p class="mb-0 font-sans text-sm font-semibold leading-normal font-poppins text-gray-400">Users in state</p>
-                            <h5 class="mb-0 font-poppins">{{$countBusy}}
-                            <span class="text-sm leading-normal font-weight-bolder text-black font-poppins text-green-300">Busy.</span>
-                            </h5>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="relative flex flex-col min-w-0 break-words bg-white shadow-md rounded-2xl bg-clip-border cursor-pointer hover:shadow-xl hover:bg-blue-100 transition-all duration-300 mt-2 mb-2">
-                    <div class="flex-auto p-4">
-                    <div class="flex flex-row -mx-3">
-                        <div class="flex items-center justify-center w-12 h-12 bg-[#50d71e] rounded-full text-white text-xl  mr-4 ml-2" style="background-color: #51B0CB">
-                            <img src="{{ asset('images/vector.png') }}" alt="">
-                        </div>
-                        @php
-                            $countNotInUse = !empty($agentDetails) ? collect($agentDetails)->filter(function ($agent) {
-                                return isset($agent['state']) && $agent['state'] === 'Not in use';
-                            })->count() : 0;
-                        @endphp 
-                        
-                        <div class="flex-none w-2/3 max-w-full px-3">
-                        <div>
-                            <p class="mb-0 font-sans text-sm font-semibold leading-normal font-poppins text-gray-400">Users in state</p>
-                            <h5 class="mb-0 font-poppins">{{$countNotInUse}}
-                            <span class="text-sm leading-normal font-weight-bolder text-black font-poppins text-gray-800">Not in use!</span>
-                            </h5>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
-
-                <div class="relative flex flex-col min-w-0 break-words bg-white shadow-md rounded-2xl bg-clip-border cursor-pointer hover:shadow-xl hover:bg-blue-100 transition-all duration-300 mt-2 mb-2">
-                    <div class="flex-auto p-4">
-                    <div class="flex flex-row -mx-3">
-                        <div class="flex items-center justify-center w-12 h-12 bg-[#50d71e] rounded-full text-white text-xl  mr-4 ml-2" style="background-color: #51B0CB">
-                            <img src="{{ asset('images/vector.png') }}" alt="">
-                        </div>
-                        @php
-                            $countInRinging = !empty($agentDetails) ? collect($agentDetails)->filter(function ($agent) {
-                                return isset($agent['state']) && $agent['state'] === 'Ringing';
-                            })->count() : 0;
-                        @endphp 
-                        
-                        <div class="flex-none w-2/3 max-w-full px-3">
-                        <div>
-                            <p class="mb-0 font-sans text-sm font-semibold leading-normal font-poppins text-gray-400">Users in state</p>
-                            <h5 class="mb-0 font-poppins">{{$countInRinging}}
-                            <span class="text-sm leading-normal font-weight-bolder text-black font-poppins text-gray-300">Ringing!</span>
-                            </h5>
-                        </div>
-                        </div>
-                    </div>
-                    </div>
-                </div>
                 
             </div>
         </div>
@@ -374,12 +199,9 @@
                         @else
                             @foreach ($membersSummaryAll as $index => $allCampaign)
                                 @php
-                                    // Extraemos el ID de la campaña y la cantidad de llamadas
                                     preg_match('/^(\d+)\s.*?(\d+) calls$/', $allCampaign, $matches);
                                     $campaignId = $matches[1] ?? null;
                                     $calls = isset($matches[2]) ? (int) $matches[2] : 0;
-                
-                                    // Determinamos el color según la cantidad de llamadas
                                     if ($calls === 0) {
                                         $bgColor = 'gray-100';
                                     } elseif ($calls > 0 && $calls <= 3) {
@@ -388,7 +210,7 @@
                                         $bgColor = 'red-300';
                                     }
                 
-                                    // Obtenemos el nombre de la campaña desde las opciones pasadas
+
                                     $campaignName = $campaignOptions[$campaignId] ?? "Unknown Campaign";
                                 @endphp
                                 @if ($campaignId)
@@ -414,49 +236,7 @@
                 <div class="h-32 bg-gray-200 rounded-lg"></div>
             </div>
         </div>
-        
-        
-        
-        <!-- Dropdown menu -->
-        
-    
 
-        
-        {{-- <script>
-            const checkboxes = document.querySelectorAll(".campaign-checkbox");
-            const campaignContainer = document.querySelector("#allCampaingsRefresh");
-            
-            // Función para inicializar la visibilidad de los elementos dinámicos
-            const initializeFilter = () => {
-                const campaignElements = campaignContainer.querySelectorAll(".campaign-item");
-        
-                checkboxes.forEach(checkbox => {
-                    checkbox.addEventListener("change", () => {
-                        // Obtener todos los IDs activos de las campañas seleccionadas
-                        const activeCampaigns = Array.from(checkboxes)
-                            .filter(checkbox => checkbox.checked)
-                            .flatMap(checkbox => checkbox.dataset.campaigns.split(",").map(Number)); // Convertimos a números
-        
-                        // Mostrar/ocultar las campañas dinámicamente
-                        campaignElements.forEach(campaignElement => {
-                            const campaignId = parseInt(campaignElement.dataset.id, 10); // ID como número
-                            if (activeCampaigns.includes(campaignId)) {
-                                campaignElement.style.display = "inline-block";
-                            } else {
-                                campaignElement.style.display = "none";
-                            }
-                        });
-                    });
-                });
-        
-                // Inicializa mostrando todas las campañas
-                checkboxes.forEach(checkbox => checkbox.dispatchEvent(new Event("change")));
-            };
-        
-            // Reejecutar el filtro después del refresh
-            document.addEventListener("DOMContentLoaded", initializeFilter);
-        </script> --}}
-        
     </div>
 </div>
 
@@ -478,185 +258,3 @@
 
 
 
-
-{{-- 
-<script>
-    const REFRESH_RATE = 8;
-    console.log(REFRESH_RATE);
-    
-    let secondsPassed = 0;
-    setInterval(() => {
-        secondsPassed++;
-        console.log(`Seconds passed: ${secondsPassed}`);
-    }, 1000);
-
-    document.addEventListener('DOMContentLoaded', function () {
-        let searchValue = '';
-
-        const searchInput = document.querySelector('#search-dropdown');
-        searchInput.addEventListener('input', function () {
-            searchValue = searchInput.value; 
-            filterTable(); 
-        });
-
-        // Función para aplicar el filtro
-        function filterTable() {
-            const rows = document.querySelectorAll('#agent-table tr');
-            rows.forEach(row => {
-                const text = row.textContent.toLowerCase();
-                if (text.includes(searchValue.toLowerCase())) {
-                    row.style.display = ''; // Mostrar fila
-                } else {
-                    row.style.display = 'none'; // Ocultar fila
-                }
-            });
-        }
-
-        // Refrescar la tabla manteniendo el filtro
-        async function loadTableContent() {
-            try {
-                const response = await fetch('/real-time-table-refresh');
-                if (!response.ok) throw new Error('Error al cargar la tabla');
-                const tableContent = await response.text();
-                document.querySelector('#agent-table').innerHTML = tableContent;
-
-                filterTable();
-                console.log('Tabla actualizada');
-            } catch (error) {
-                console.error('Error al actualizar la tabla:', error);
-            }
-        }
-        async function loadQueueDetail() {
-            try {
-                const response = await fetch('/real-time-queueDetail-refresh');
-                if (!response.ok) throw new Error('Error al cargar los detail queue');
-                if (response.ok) {
-                    console.log('queueDetail actualizados');
-                }
-                const iconContent = await response.text(); // Obtén el HTML como texto
-                document.querySelector('#queueDetail').innerHTML = iconContent;
-            } catch (error) {
-                console.error('Error al actualizar los queueDetail:', error);
-            }
-        }
-
-        async function loadstateInfo() {
-            try {
-                const response = await fetch('/real-time-stateInfo-refresh');
-                if (!response.ok) throw new Error('Error al cargar los  stateInfo');
-                if (response.ok) {
-                    console.log('stateInfo actualizados');
-                }
-                const iconContent = await response.text(); // Obtén el HTML como texto
-                document.querySelector('#stateInfo').innerHTML = iconContent;
-            } catch (error) {
-                console.error('Error al actualizar los stateInfo:', error);
-            }
-        }
-
-    
-
-
-
-        function assignCheckboxEvents() {
-            const checkboxes = document.querySelectorAll(".campaign-checkbox");
-            const campaignElements = document.querySelectorAll(".campaign-item"); // Cambiado a ".campaign-item" para span dinámicos
-
-            // Escucha los cambios en los checkboxes
-            checkboxes.forEach(checkbox => {
-                checkbox.addEventListener("change", () => {
-                    // Obtener todos los IDs activos de las campañas seleccionadas
-                    const activeCampaigns = Array.from(checkboxes)
-                        .filter(checkbox => checkbox.checked)
-                        .flatMap(checkbox => checkbox.dataset.campaigns.split(",").map(Number)); // Convertimos a números
-
-                    // Mostrar/ocultar las campañas dinámicamente
-                    campaignElements.forEach(campaignElement => {
-                        const campaignId = parseInt(campaignElement.dataset.id, 10); // ID como número
-                        if (activeCampaigns.includes(campaignId)) {
-                            campaignElement.style.display = "inline-block";
-                        } else {
-                            campaignElement.style.display = "none";
-                        }
-                    });
-                });
-            });
-
-            // Inicializa mostrando todas las campañas
-            checkboxes.forEach(checkbox => checkbox.dispatchEvent(new Event("change")));
-        }
-
-
-        // Guarda la selección de los checkboxes
-        function saveCheckboxState() {
-            const checkboxes = document.querySelectorAll(".campaign-checkbox");
-            const selectedCampaigns = [];
-
-            checkboxes.forEach(checkbox => {
-                if (checkbox.checked) {
-                    selectedCampaigns.push(checkbox.id); // Usa el ID del checkbox como referencia
-                }
-            });
-
-            // Guarda los IDs de los checkboxes seleccionados en localStorage
-            localStorage.setItem("selectedCampaigns", JSON.stringify(selectedCampaigns));
-        }
-
-        // Restaura el estado de los checkboxes
-        function restoreCheckboxState() {
-            const selectedCampaigns = JSON.parse(localStorage.getItem("selectedCampaigns")) || [];
-
-            const checkboxes = document.querySelectorAll(".campaign-checkbox");
-
-            checkboxes.forEach(checkbox => {
-                checkbox.checked = selectedCampaigns.includes(checkbox.id);
-            });
-        }
-
-        // Llama a saveCheckboxState cada vez que cambie un checkbox
-        document.querySelectorAll(".campaign-checkbox").forEach(checkbox => {
-            checkbox.addEventListener("change", saveCheckboxState);
-        });
-
-        // Llama a restoreCheckboxState después de cargar las campañas
-        async function loadAllCampaings() {
-            try {
-                const response = await fetch('/real-time-allCampaings-refresh');
-                if (!response.ok) throw new Error('Error al cargar los allCampaings');
-                
-                // Obtén el HTML del nuevo contenido
-                const iconContent = await response.text();
-                
-                // Reemplaza el contenido del contenedor
-                document.querySelector('#allCampaingsRefresh').innerHTML = iconContent;
-
-                console.log('allCampaings actualizados');
-
-                // Restaurar el estado de los checkboxes después de la actualización
-                restoreCheckboxState();
-
-                // Reasignar eventos a los nuevos elementos
-                assignCheckboxEvents();
-
-                // Aplicar el filtro inicial
-                document.querySelectorAll(".campaign-checkbox").forEach(checkbox => {
-                    checkbox.dispatchEvent(new Event("change"));
-                });
-            } catch (error) {
-                console.error('Error al actualizar los allCampaings:', error);
-            }
-        }
-
-
-
-        
-        function loadContent() {
-            loadTableContent();
-            loadQueueDetail();
-            loadstateInfo();
-            loadAllCampaings();
-        }
-
-        setInterval(loadContent, REFRESH_RATE * 1000); 
-    });
-</script> --}}

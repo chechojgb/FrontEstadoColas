@@ -1,4 +1,5 @@
 import './bootstrap';
 import 'flowbite';
 
-import './pages/campaigns';
+import  './views/campaigns.js';
+import  './views/changeCampaings.js';
