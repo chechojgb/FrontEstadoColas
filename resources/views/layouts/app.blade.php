@@ -29,12 +29,15 @@
         <div class="flex flex-1">
 
             <x-dashboard-campaings 
-                title="Select a Skill" 
-                :action-route="route('execute.command')" 
+                title="Select a Campaign or Operation" 
+                {{-- :action-route="route('execute.command')"  --}}
                 :campaign-options="App\Http\Controllers\VicidialController::CAMPAIGN_OPTIONS" 
+                :operation-options="App\Http\Controllers\VicidialController::OPERATION_OPTIONS" 
                 :selected-campaign="$selectedCampaign ?? null"
+                :selected-operation="$selectedOperation ?? null"
                 class="flex-shrink-0 bg-gray-50 w-80 min-h-full"
             />
+
             <main class="flex-1 p-4 bg-white">
                 @yield('content')
             </main>

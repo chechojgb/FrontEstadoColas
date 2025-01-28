@@ -2,6 +2,7 @@
 
 @section('content')
  
+
 <div class="mb-4 border-b border-gray-200 border-gray-700">
     <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
         <li class="me-2" role="presentation">
@@ -124,13 +125,15 @@
 
             
             <div id="stateInfo">
-
                 @php
                     $countInCall = !empty($agentDetails) ? collect($agentDetails)->filter(fn($agent) => $agent['state'] === 'in call')->count() : 0;
                     $countOnHold = !empty($agentDetails) ? collect($agentDetails)->filter(fn($agent) => $agent['state'] === 'On Hold')->count() : 0;
                     $countBusy = !empty($agentDetails) ? collect($agentDetails)->filter(fn($agent) => $agent['state'] === 'Busy')->count() : 0;
                     $countNotInUse = !empty($agentDetails) ? collect($agentDetails)->filter(fn($agent) => $agent['state'] === 'Not in use')->count() : 0;
                     $countRinging = !empty($agentDetails) ? collect($agentDetails)->filter(fn($agent) => $agent['state'] === 'Ringing')->count() : 0;
+
+                    $totalCount = $countInCall + $countOnHold + $countBusy + $countNotInUse + $countRinging;
+
                     $colors = [
                         'in call' => '#4A90E2',
                         'On Hold' => '#E74C3C',
@@ -140,13 +143,12 @@
                     ];
                 @endphp
 
-                <x-state-agent-card :count="$countInCall" state="in call" :colors="$colors" />
-                <x-state-agent-card :count="$countOnHold" state="On Hold" :colors="$colors" />
-                <x-state-agent-card :count="$countBusy" state="Busy" :colors="$colors" />
-                <x-state-agent-card :count="$countNotInUse" state="Not in use" :colors="$colors" />
-                <x-state-agent-card :count="$countRinging" state="Ringing" :colors="$colors" />
-
-                
+                <x-state-agent-card :count="$countInCall" state="in call" :colors="$colors" image="in-call"/>
+                <x-state-agent-card :count="$countOnHold" state="On Hold" :colors="$colors" image="on-hold"/>
+                <x-state-agent-card :count="$countBusy" state="Busy" :colors="$colors" image="busy"/>
+                <x-state-agent-card :count="$countNotInUse" state="Not in use" :colors="$colors" image="not-in-use"/>
+                <x-state-agent-card :count="$countRinging" state="Ringing" :colors="$colors" image="rining"/>
+                <x-state-agent-card :count="$totalCount" state="Total_agents" :colors="$colors" image="rining"/>
             </div>
         </div>
         
@@ -209,17 +211,19 @@
                                     } else {
                                         $bgColor = 'red-300';
                                     }
-                
 
-                                    $campaignName = $campaignOptions[$campaignId] ?? "Unknown Campaign";
+                                    
+
+                                    $campaignName = $campaignOptions[$campaignId - 1] ?? "Unknown Campaign";
                                 @endphp
                                 @if ($campaignId)
                                     <span 
                                         data-id="{{ $campaignId }}" 
                                         class="campaign-item bg-{{ $bgColor }} text-{{ $bgColor }}-800 text-sm font-medium px-2.5 py-0.5 rounded-sm dark:bg-{{ $bgColor }}-900 dark:text-{{ $bgColor }}-300"
                                     >
-                                        {{ $index + 1 }}. {{ $campaignName }} {{ $calls }} calls
-                                    </span>
+                                    {{$campaignId}}. {{ $campaignName }} <strong>{{ $calls }}</strong> calls
+                                </span>
+                                {{-- {{ $index + 1 }}. --}}
                                 @endif
                             @endforeach
                         @endif

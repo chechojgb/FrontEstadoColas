@@ -2,11 +2,11 @@
 const REFRESH_RATE = 8;
 console.log(REFRESH_RATE);
 
-let secondsPassed = 0;
-setInterval(() => {
-    secondsPassed++;
-    console.log(`Seconds passed: ${secondsPassed}`);
-}, 1000);
+// let secondsPassed = 0;
+// setInterval(() => {
+//     secondsPassed++;
+//     console.log(`Seconds passed: ${secondsPassed}`);
+// }, 1000);
 
 document.addEventListener('DOMContentLoaded', function () {
     let searchValue = '';

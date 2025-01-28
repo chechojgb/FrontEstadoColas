@@ -14,12 +14,14 @@ class stateAgentCard extends Component
     public $count;
     public $state;
     public $colors;
+    public $image;
 
-    public function __construct($count, $state, $colors = [])
+    public function __construct($count, $state, $colors = [], $image)
     {
         $this->count = $count;
         $this->state = $state;
         $this->colors = $colors;
+        $this->image = $image;
     }
 
     /**
