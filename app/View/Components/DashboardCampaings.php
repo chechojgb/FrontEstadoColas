@@ -9,16 +9,16 @@ use Illuminate\View\Component;
 class DashboardCampaings extends Component
 {
     public $title;
-    public $actionRoute;
+
     public $campaignOptions;
     public $selectedCampaign;
     /**
      * Create a new component instance.
      */
-    public function __construct($title, $actionRoute, $campaignOptions, $selectedCampaign = null)
+    public function __construct($title, $campaignOptions, $selectedCampaign = null)
     {
         $this->title = $title;
-        $this->actionRoute = $actionRoute;
+
         $this->campaignOptions = $campaignOptions;
         $this->selectedCampaign = $selectedCampaign;
     }

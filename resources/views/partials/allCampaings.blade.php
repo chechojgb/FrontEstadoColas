@@ -18,15 +18,16 @@
                     $bgColor = 'red-300';
                 }
 
-                $campaignName = $campaignOptions[$campaignId] ?? "Unknown Campaign";
+                $campaignName = $campaignOptions[$campaignId - 1] ?? "Unknown Campaign";
             @endphp
             @if ($campaignId)
                 <span 
                     data-id="{{ $campaignId }}" 
                     class="campaign-item bg-{{ $bgColor }} text-{{ $bgColor }}-800 text-sm font-medium px-2.5 py-0.5 rounded-sm dark:bg-{{ $bgColor }}-900 dark:text-{{ $bgColor }}-300"
                 >
-                    {{ $index + 1 }}. {{ $campaignName }} {{ $calls }} calls
-                </span>
+                {{$campaignId}}. {{ $campaignName }} <strong>{{ $calls }}</strong> calls
+            </span>
+            {{-- {{ $index + 1 }}. --}}
             @endif
         @endforeach
     @endif

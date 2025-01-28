@@ -50,40 +50,75 @@ class VicidialController extends Controller
         "T_HOGARES-POSTVENTA_TRASLADOS_COBRE"
     ];
 
+    public const OPERATION_OPTIONS = [
+        "SUPPORT",
+        "FORMALITIES",
+        "MOBILES",
+        "RETENTION"
+    ];
+
 
     public function showCampaigns()
     {
-        return view('campaigns', ['campaigns' => self::CAMPAIGN_OPTIONS]);
+        return view('campaigns', ['campaigns' => self::CAMPAIGN_OPTIONS, 'operations' => self::OPERATION_OPTIONS] );
     }
+
 
     public function executeCommand(Request $request)
     {
-        $validated = $this->validateCampaign($request);
-        $campaignIndex = $validated['campaign'];
+        $selectedCampaign = null;
+        $campaignIndex = null;
+        
+        if ($request->has('campaign')) {
+            $validated = $this->validateCampaign($request);
+            $campaignIndex = $validated['campaign'];
+            $selectedCampaign = self::CAMPAIGN_OPTIONS[$campaignIndex - 1];
+            session(['campaignIndex' => $campaignIndex, 'operationIndex' => null]);
+            $command = "rasterisk -rx 'queue show q{$campaignIndex}' | sort";
+        } elseif ($request->has('operation')) {
+            $validatedOp = $this->validateOperation($request);
+            $operationIndex = $validatedOp['operation'];
+            // dd(['validated_operation' => $validatedOp['operation']]);
+            session(['operationIndex' => $operationIndex, 'campaignIndex' => null]);
+            $operationQueues = [
+                1 => [17, 18, 19, 20, 21, 22, 24, 25, 26],
+                2 => [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 23],
+                3 => [27, 28, 29, 30, 31, 32, 33, 34, 35, 37],
+                4 => [1, 2, 3],
+            ];
+            if (isset($operationQueues[$operationIndex])) {
+                $queues = $operationQueues[$operationIndex];
+                $commands = array_map(function($queue) {
+                    return "rasterisk -rx 'queue show q{$queue}'";
+                }, $queues);
+                $command = implode(' && ', $commands) . ' | sort';
+
+            } else {
+                return response()->json(['error' => 'Operación no válida'], 400);
+            }
+        } else {
+            return response()->json(['error' => 'No se enviaron datos válidos'], 400);
+        }
         // dd($validated, $campaignIndex);
-        $selectedCampaign = self::CAMPAIGN_OPTIONS[$campaignIndex - 1];
         // dd($campaignIndex, $selectedCampaign);
-        $command = $campaignIndex === count(self::CAMPAIGN_OPTIONS)
-            ? "rasterisk -rx 'queue show' | sort"
-            : "rasterisk -rx 'queue show q{$campaignIndex}' | sort";
         $output = $this->getSSHOutput($command);
         if (!$output) {
             return back()->withErrors(['error' => 'Failed to connect to the server.']);
         }
+
         $allCampaignCommand = "rasterisk -rx 'queue show' | sort";
         $allCampOutput = $this->getSSHOutput($allCampaignCommand);
         $membersSummaryAll = $this->extractQueueAll($allCampOutput);
         // dd($membersSummaryAll);
         $cleanOutput = $this->removeAnsiCharacters($output);
-        // dd($cleanOutput);
         // dd($allCampOutput);
-        session([
-            'campaignIndex' => $campaignIndex,
-            'cleanOutput' => $cleanOutput,
-        ]);
+        session(['cleanOutput' => $cleanOutput,]);
         $callsInQueue = $this->extractCallsInQueue($cleanOutput);
         $queueMembersSummary = $this->extractQueueMembersSummary($cleanOutput);
         $agentDetails = $this->getAgentDetails($cleanOutput);
+        $agentDetails = collect($agentDetails)->unique('name')->values()->all();
+
+        // dd($agentDetails);
         
         return view('campaigns', [
             'campaign' => $selectedCampaign,
@@ -92,6 +127,7 @@ class VicidialController extends Controller
             'queueMembersSummary' => $queueMembersSummary,
             'membersSummaryAll' => $membersSummaryAll,
             'campaignOptions' => VicidialController::CAMPAIGN_OPTIONS,
+            'operationOptions' => self::OPERATION_OPTIONS
         ]);
     }
 
@@ -102,13 +138,19 @@ class VicidialController extends Controller
         ]);
     }
 
+    private function validateOperation(Request $request)
+    {
+        return $request->validate([
+            'operation' => 'required|integer|min:1|max:' . count(self::OPERATION_OPTIONS),
+        ]);
+    }
+
     private function getSSHOutput(string $command): ?string
     {
 
         $user = env('USER_SERVER');
         $password = env('PASSWORD_SERVER');
         $host_server = env('HOST_SERVER');
-        dd($user, $password);
         $ssh = new SSH2($host_server);
         if (!$ssh->login($user, $password)) {
             return null;
@@ -165,13 +207,37 @@ class VicidialController extends Controller
         $cleanOutput = $this->removeAnsiCharacters($output);
         return $this->getAgentDetails($cleanOutput);
     }
+    private function getAgentDetailsForOperation($operationIndex)
+    {
+        $operationQueues = [
+            1 => [17, 18, 19, 20, 21, 22, 24, 25, 26],
+            2 => [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 23],
+            3 => [27, 28, 29, 30, 31, 32, 33, 34, 35, 37],
+            4 => [1, 2, 3],
+        ];
+        if (isset($operationQueues[$operationIndex])) {
+            $queues = $operationQueues[$operationIndex];
+            $commands = array_map(function($queue) {
+                return "rasterisk -rx 'queue show q{$queue}'";
+            }, $queues);
+            $command = implode(' && ', $commands) . ' | sort';
+        }
+        $output = $this->getSSHOutput($command);
+        if (!$output) {
+            return back()->withErrors(['error' => 'Failed to connect to the server.']);
+        }
+        $cleanOutput = $this->removeAnsiCharacters($output);
+        $agentDetails = $this->getAgentDetails($cleanOutput);
+        $agentDetails = collect($agentDetails)->unique('name')->values()->all();
+        return $agentDetails = collect($agentDetails)->unique('name')->values()->all();
+    }
 
     private function getAgentDetails(string $output): array
     {
         $pattern = '/SIP\/(\d+)\s+\((.*?)\)\s+\((.*?)\)/';
         preg_match_all($pattern, $output, $matches, PREG_SET_ORDER);
         $filteredMatches = array_filter($matches, function ($match) {
-            return $match[3] !== "Unavailable";
+            return $match[3] !== "Unavailable" && $match[3] !== 'Invalid';
         });
         $agentDetails = [];
         foreach ($filteredMatches as $match) {
@@ -212,7 +278,12 @@ class VicidialController extends Controller
     public function refreshTable(Request $request)
     {
         $campaignIndex = session('campaignIndex');
-        $agentDetails = $this->getAgentDetailsForCampaign($campaignIndex);
+        if ($campaignIndex === null) {
+            $operationIndex = session('operationIndex');
+            $agentDetails = $this->getAgentDetailsForOperation($operationIndex);
+        }else{
+            $agentDetails = $this->getAgentDetailsForCampaign($campaignIndex);
+        }
         if (is_null($agentDetails)) {
             return back()->withErrors(['error' => 'Failed to connect to the server.']);
         }
@@ -223,7 +294,12 @@ class VicidialController extends Controller
     public function refreshStateInfo(Request $request)
     {
         $campaignIndex = session('campaignIndex');
-        $agentDetails = $this->getAgentDetailsForCampaign($campaignIndex);
+        if ($campaignIndex === null) {
+            $operationIndex = session('operationIndex');
+            $agentDetails = $this->getAgentDetailsForOperation($operationIndex);
+        }else{
+            $agentDetails = $this->getAgentDetailsForCampaign($campaignIndex);
+        }
         if (is_null($agentDetails)) {
             return back()->withErrors(['error' => 'Failed to connect to the server.']);
         }
@@ -233,17 +309,39 @@ class VicidialController extends Controller
 
     public function refreshQueueDetail(Request $request)
     {
-        $campaignIndex = session('campaignIndex');
-        $command = $campaignIndex === count(self::CAMPAIGN_OPTIONS)
-            ? "rasterisk -rx 'queue show' | sort"
-            : "rasterisk -rx 'queue show q{$campaignIndex}' | sort";
 
-        $output = $this->getSSHOutput($command);
-        if (!$output) {
-            return back()->withErrors(['error' => 'Failed to connect to the server.']);
+        $campaignIndex = session('campaignIndex');
+        if ($campaignIndex === null) {
+            $operationIndex = session('operationIndex');
+            $operationQueues = [
+                1 => [17, 18, 19, 20, 21, 22, 24, 25, 26],
+                2 => [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 23],
+                3 => [27, 28, 29, 30, 31, 32, 33, 34, 35, 37],
+                4 => [1, 2, 3],
+            ];
+            if (isset($operationQueues[$operationIndex])) {
+                $queues = $operationQueues[$operationIndex];
+                $commands = array_map(function($queue) {
+                    return "rasterisk -rx 'queue show q{$queue}'";
+                }, $queues);
+                $command = implode(' && ', $commands) . ' | sort';
+            }
+            $output = $this->getSSHOutput($command);
+            if (!$output) {
+                return back()->withErrors(['error' => 'Failed to connect to the server.']);
+            }
+            $cleanOutput = $this->removeAnsiCharacters($output);
+            $callsInQueue = $this->extractCallsInQueue($cleanOutput);
+        }else{
+            $command = "rasterisk -rx 'queue show q{$campaignIndex}' | sort";
+            $output = $this->getSSHOutput($command);
+            if (!$output) {
+                return back()->withErrors(['error' => 'Failed to connect to the server.']);
+            }
+            $cleanOutput = $this->removeAnsiCharacters($output);
+            $callsInQueue = $this->extractCallsInQueue($cleanOutput);
         }
-        $cleanOutput = $this->removeAnsiCharacters($output);
-        $callsInQueue = $this->extractCallsInQueue($cleanOutput);
+
         
         return view('partials.queueDetail', compact('callsInQueue'));
     }
