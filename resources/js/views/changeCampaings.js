@@ -26,3 +26,4 @@ const initializeFilter = () => {
 
 // Rerun filter after refresh
 document.addEventListener("DOMContentLoaded", initializeFilter);
+
