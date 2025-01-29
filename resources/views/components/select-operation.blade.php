@@ -10,7 +10,7 @@
 
             <option value="" disabled selected hidden>{{ __($title) }}</option>
             @foreach ($options as $value => $label)
-                <option value="{{ $value + 1}}">
+                <option value="{{ $value + 1}}" @selected(session('operationIndex') == $value + 1)>
                     {{ __($label) }}
                 </option>
             @endforeach
@@ -19,3 +19,4 @@
     </div>
     
 </div>
+

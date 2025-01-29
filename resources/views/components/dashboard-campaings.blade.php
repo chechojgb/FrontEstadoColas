@@ -12,10 +12,11 @@
 
             <!-- Selector para elegir el filtro -->
             <div class="mb-4">
-                <label for="filter_type" class="block text-sm font-medium text-gray-700">¿Cómo quieres filtrar?</label>
+                <label for="filter_type" class="block text-sm font-medium text-gray-700">How do you want to filter?</label>
                 <select id="filter_type" name="filter_type" class="block w-full bg-gray-100 text-gray-800 border border-transparent rounded-lg shadow-sm focus:ring focus:ring-blue-300 focus:outline-none focus:border-blue-500 transition p-3">
-                    <option value="campaign" selected>Por campaña</option>
-                    <option value="operation">Por operación</option>
+                    <option disabled selected hidden>Select Filter</option>
+                    <option value="operation">For operation</option>
+                    <option value="campaign" >For campaing</option>
                 </select>
             </div>
 
@@ -23,10 +24,10 @@
             <form method="POST" action="{{ route('execute.command') }}" id="campaign_form" class="hidden">
                 @csrf
                 <div class="mb-4">
-                    <label for="campaign" class="block text-sm font-medium text-gray-700">Selecciona una campaña</label>
+                    <label for="campaign" class="block text-sm font-medium text-gray-700">Select a campaing</label>
                     <x-select-campaign 
                         name="campaign" 
-                        title="Selecciona una campaña" 
+                        title="Select a campaing" 
                         :options="$campaignOptions" 
                         :selected-value="$selectedCampaign"
                     />
@@ -41,10 +42,10 @@
             <form method="POST" action="{{ route('execute.command') }}" id="operation_form" class="hidden">
                 @csrf
                 <div class="mb-4">
-                    <label for="operation" class="block text-sm font-medium text-gray-700">Selecciona una campaña</label>
+                    <label for="operation" class="block text-sm font-medium text-gray-700">Select a operation</label>
                     <x-select-operation 
                         name="operation" 
-                        title="Selecciona una operacion" 
+                        title="Select a operation" 
                         :options="App\Http\Controllers\VicidialController::OPERATION_OPTIONS" 
                     />
                 </div>
@@ -58,23 +59,49 @@
 </aside>
 
 <script>
-    // JavaScript para manejar la visibilidad de los formularios según la elección
     document.getElementById('filter_type').addEventListener('change', function() {
-        const campaignForm = document.getElementById('campaign_form');
-        const operationForm = document.getElementById('operation_form');
-        
-        if (this.value === 'campaign') {
-            campaignForm.classList.remove('hidden');
-            operationForm.classList.add('hidden');
-        } else if (this.value === 'operation') {
-            campaignForm.classList.add('hidden');
-            operationForm.classList.remove('hidden');
-        }
-    });
+    const campaignForm = document.getElementById('campaign_form');
+    const operationForm = document.getElementById('operation_form');
+    
+    // Mostrar el formulario correspondiente basado en la selección
+    if (this.value === 'campaign') {
+        campaignForm.classList.remove('hidden');
+        operationForm.classList.add('hidden');
+    } else if (this.value === 'operation') {
+        operationForm.classList.remove('hidden');
+        campaignForm.classList.add('hidden');
+    }
+});
 
-    // Inicializar ocultando los formularios hasta que se haga una selección
-    window.addEventListener('load', function() {
+window.addEventListener('load', function() {
+    const filterType = document.getElementById('filter_type');
+
+    if (filterType.value === 'campaign') {
+        document.getElementById('campaign_form').classList.remove('hidden');
+        document.getElementById('operation_form').classList.add('hidden');
+    } else if (filterType.value === 'operation') {
+        document.getElementById('operation_form').classList.remove('hidden');
+        document.getElementById('campaign_form').classList.add('hidden');
+    } else {
+        // Si no hay selección, ambos formularios estarán ocultos
         document.getElementById('campaign_form').classList.add('hidden');
         document.getElementById('operation_form').classList.add('hidden');
-    });
+    }
+});
+
+document.getElementById('operation_form').addEventListener('submit', function(e) {
+    const operationSelect = document.querySelector('select[name="operation"]');
+    const campaignSelect = document.querySelector('select[name="campaign"]');
+    if (!operationSelect.value ) {
+        e.preventDefault();
+    }
+});
+document.getElementById('campaign_form').addEventListener('submit', function(e) {
+    const campaignSelect = document.querySelector('select[name="campaign"]');
+    if (!campaignSelect.value ) {
+        e.preventDefault();
+    }
+});
+
+
 </script>

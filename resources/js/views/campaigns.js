@@ -132,18 +132,51 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
 
+    let activeModalId = null; 
+    let modalOpenedByUser = false; 
+
+    function openModal(modalId) {
+        document.getElementById(modalId).classList.remove('hidden');
+        activeModalId = modalId;
+        modalOpenedByUser = true;
+    }
+
+    function closeModal(modalId) {
+        document.getElementById(modalId).classList.add('hidden');
+        modalOpenedByUser = false;  
+    }
+
+
     async function loadAllCampaings() {
         try {
             const response = await fetch('/real-time-allCampaings-refresh');
             if (!response.ok) throw new Error('Error al cargar los allCampaings');
 
             const iconContent = await response.text();
-
             document.querySelector('#allCampaingsRefresh').innerHTML = iconContent;
 
             console.log('allCampaings actualizados');
             restoreCheckboxState();
             assignCheckboxEvents();
+
+   
+            document.querySelectorAll('button[data-modal-toggle]').forEach(button => {
+                button.addEventListener('click', function() {
+                    const modalId = button.getAttribute('data-modal-target');
+                    openModal(modalId);
+                });
+            });
+
+            document.querySelectorAll('[data-modal-hide]').forEach(button => {
+                button.addEventListener('click', function() {
+                    const modalId = button.getAttribute('data-modal-hide');
+                    closeModal(modalId); 
+                });
+            });
+
+            if (activeModalId && modalOpenedByUser) {
+                openModal(activeModalId);
+            }
 
             document.querySelectorAll(".campaign-checkbox").forEach(checkbox => {
                 checkbox.dispatchEvent(new Event("change"));
@@ -152,6 +185,8 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error al actualizar los allCampaings:', error);
         }
     }
+
+
 
 
 

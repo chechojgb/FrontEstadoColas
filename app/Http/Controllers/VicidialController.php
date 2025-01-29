@@ -66,9 +66,9 @@ class VicidialController extends Controller
 
     public function executeCommand(Request $request)
     {
+        $startTime = microtime(true);
         $selectedCampaign = null;
         $campaignIndex = null;
-        
         if ($request->has('campaign')) {
             $validated = $this->validateCampaign($request);
             $campaignIndex = $validated['campaign'];
@@ -109,7 +109,6 @@ class VicidialController extends Controller
         $allCampaignCommand = "rasterisk -rx 'queue show' | sort";
         $allCampOutput = $this->getSSHOutput($allCampaignCommand);
         $membersSummaryAll = $this->extractQueueAll($allCampOutput);
-        // dd($membersSummaryAll);
         $cleanOutput = $this->removeAnsiCharacters($output);
         // dd($allCampOutput);
         session(['cleanOutput' => $cleanOutput,]);
@@ -117,9 +116,9 @@ class VicidialController extends Controller
         $queueMembersSummary = $this->extractQueueMembersSummary($cleanOutput);
         $agentDetails = $this->getAgentDetails($cleanOutput);
         $agentDetails = collect($agentDetails)->unique('name')->values()->all();
-
-        // dd($agentDetails);
-        
+        $endTime = microtime(true);
+        $executionTime = $endTime - $startTime;
+        // dd($executionTime);
         return view('campaigns', [
             'campaign' => $selectedCampaign,
             'agentDetails' => $agentDetails,
@@ -202,7 +201,7 @@ class VicidialController extends Controller
             : "rasterisk -rx 'queue show q{$campaignIndex}' | sort";
         $output = $this->getSSHOutput($command);
         if (!$output) {
-            return back()->withErrors(['error' => 'Failed to connect to the server.']);
+            throw new \Exception('Failed to connect to the server.');
         }
         $cleanOutput = $this->removeAnsiCharacters($output);
         return $this->getAgentDetails($cleanOutput);
@@ -224,7 +223,7 @@ class VicidialController extends Controller
         }
         $output = $this->getSSHOutput($command);
         if (!$output) {
-            return back()->withErrors(['error' => 'Failed to connect to the server.']);
+            throw new \Exception('Failed to connect to the server.');
         }
         $cleanOutput = $this->removeAnsiCharacters($output);
         $agentDetails = $this->getAgentDetails($cleanOutput);
@@ -239,6 +238,10 @@ class VicidialController extends Controller
         $filteredMatches = array_filter($matches, function ($match) {
             return $match[3] !== "Unavailable" && $match[3] !== 'Invalid';
         });
+        $filteredMatches = collect($filteredMatches)
+        ->unique(fn($match) => $match[1])
+        ->values()
+        ->all();
         $agentDetails = [];
         foreach ($filteredMatches as $match) {
             $extension = $match[1];
