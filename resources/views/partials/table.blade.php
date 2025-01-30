@@ -16,7 +16,7 @@
                 </td>
                 <td class="px-6 py-4">
                     @if (isset($agent['call_state']))
-                        {{ $agent['call_id'] }}
+                        {{ $agent['ipUser'] }}
                     @endif
                 </td>
                 <td class="px-6 py-4">

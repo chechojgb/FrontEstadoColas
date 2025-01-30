@@ -17,7 +17,20 @@
     <div class="flex p-4 rounded-lg bg-gray-50 " id="profile" role="tabpanel" aria-labelledby="profile-tab">
         <!-- Table Container -->
         <div class="w-full pr-4" >
-            
+            <p>
+                @php
+                    $operation = null;
+                    
+                    if (session('operationIndex')) {
+                        $operationIndex = session('operationIndex') -1 ;
+                        $operation = \App\Http\Controllers\VicidialController::OPERATION_OPTIONS[$operationIndex] ?? $operationIndex;
+                    } elseif (session('campaignIndex')) {
+                        $campaignIndex = session('campaignIndex') - 1;
+                        $operation = \App\Http\Controllers\VicidialController::CAMPAIGN_OPTIONS[$campaignIndex] ?? $campaignIndex;
+                    }
+                @endphp
+                {{ $operation }}
+            </p>
             <div class="max-w-lg ml-auto mb-4">
                 <div class="flex">
                     {{-- Searchh --}}
@@ -46,7 +59,7 @@
                             {{__('User name')}}
                         </th>
                         <th scope="col" class="px-6 py-3">
-                            {{__('Last Call ID')}}
+                            {{__('IP User')}}
                         </th>
                         <th scope="col" class="px-6 py-3">
                             {{__('Call State')}}
@@ -74,7 +87,7 @@
                                 </td>
                                 <td class="px-6 py-4">
                                     @if (isset($agent['call_state']))
-                                        {{ $agent['call_id'] }}
+                                        {{ $agent['ipUser'] }}
                                     @endif
                                 </td>
                                 <td class="px-6 py-4">
