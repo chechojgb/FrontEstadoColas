@@ -118,7 +118,7 @@ class VicidialController extends Controller
         $agentDetails = collect($agentDetails)->unique('name')->values()->all();
         $endTime = microtime(true);
         $executionTime = $endTime - $startTime;
-        // dd($executionTime);
+        // dd($executionTime);  
         return view('campaigns', [
             'campaign' => $selectedCampaign,
             'agentDetails' => $agentDetails,
@@ -251,16 +251,29 @@ class VicidialController extends Controller
             $user = DB::table('usersv2')->where('extension', $extension)->first();
 
             if ($user) {
+                
                 $call = DB::table('calls')->where('user_id', $user->id)->orderBy('start', 'desc')->first();
-
                 $callState = $call && isset($call->end) ? 'Call finished' : 'Call in progress';
 
+                $command = "rasterisk -rx 'sip show peers' |grep $extension";
+                $output = $this->getSSHOutput($command);
+                if (!$output) {
+                    return back()->withErrors(['error' => 'Failed to connect to the server.']);
+                }
+                preg_match('/\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/', $output, $matches);
+
+                if (!empty($matches)) {
+                    $ipUser = $matches[0];
+                } else {
+                    $ipUser = 'Not IP';
+                }
                 $agentDetails[] = [
                     'call_id' => $call->id ?? null,
                     'extension' => $extension,
                     'name' => $user->name,
                     'call_state' => $callState,
                     'state' => $callStatus,
+                    'ipUser' => $ipUser,
                 ];
             } else {
                 $agentDetails[] = [
