@@ -6,9 +6,9 @@
     @else
         @foreach ($agentDetails as $agent)
             <tr class="odd:bg-white even:bg-gray-50 border-b">
-                <th scope="row" class="px-6 py-4 text-gray-900 whitespace-nowrap">
+                <td scope="row" class="px-6 py-4 text-gray-900 whitespace-nowrap">
                     {{ $agent['extension'] }}
-                </th>
+                </td>
                 <td class="px-6 py-4">
                     @if (isset($agent['name']))
                         {{ $agent['name'] }}
@@ -21,11 +21,21 @@
                 </td>
                 <td class="px-6 py-4">
                     @if (isset($agent['call_state']))
-                        {{ $agent['call_state'] }}
+                        @if ($agent['call_state'] == 'Call finished' && 
+                            ($agent['duration1'] != "NA" || $agent['duration2'] != "NA"))
+                            {{ 'In transfer' }} 
+                        @else
+                            {{ $agent['call_state'] }} 
+                        @endif
                     @endif
                 </td>
                 <td class="px-6 py-4">
                     {{ $agent['state'] }}
+                </td>
+                <td class="px-6 py-4">
+                    @if (isset($agent['call_state']))
+                        {{ $agent['duration1'] }} / {{ $agent['duration2'] }}
+                    @endif
                 </td>
             </tr>
         @endforeach

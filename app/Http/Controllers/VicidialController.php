@@ -146,10 +146,10 @@ class VicidialController extends Controller
         $maxExecution = collect($executionTimes)->sortDesc()->first();
         $slowestProcess = collect($executionTimes)->search($maxExecution);
         // dd($agentDetails);
-        dd([
-            'Execution Times' => $executionTimes,
-            'Slowest Process' => $slowestProcess,
-        ]);
+        // dd([
+        //     'Execution Times' => $executionTimes,
+        //     'Slowest Process' => $slowestProcess,
+        // ]);
 
         return view('campaigns', [
             'campaign' => $selectedCampaign,
@@ -247,6 +247,7 @@ class VicidialController extends Controller
         $command = "rasterisk -rx 'sip show peers' && rasterisk -rx 'core show channels verbose'";
         $output = $this->getSSHOutput($command);
 
+        
         if (!$output) {
             return back()->withErrors(['error' => 'Failed to connect to the server.']);
         }
@@ -263,12 +264,14 @@ class VicidialController extends Controller
             }
             $call = $calls[$user->id]->first() ?? null;
             $callState = optional($call)->end ? 'Call finished' : 'Call in progress';
-            preg_match('/\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/', $output, $matches);
-            $ipUser = $matches[0] ?? 'Not IP';
-            preg_match_all('/\d{2}:\d{2}:\d{2}/', $output, $durations);
-            $duration1 = $durations[0][0] ?? 'Not Available';
-            $duration2 = $durations[0][1] ?? 'Not Available';
 
+            preg_match("/^$extension\/$extension\s+([\d\.]+)/m", $output, $ipMatch);
+            $ipUser = $ipMatch[1] ?? 'Not IP';
+
+            preg_match_all("/(?:SIP\/\S+\s+)?\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+(\d{2}:\d{2}:\d{2})\s+$extension\b/", $output, $durations);
+            $duration1 = $durations[1][0] ?? 'NA';
+            $duration2 = $durations[1][1] ?? 'NA';
+            // dd($durations[1][0] ?? 'Not Available');
             return [
                 'call_id' => optional($call)->id,
                 'extension' => $extension,
@@ -284,6 +287,57 @@ class VicidialController extends Controller
 
         return $agentDetails;
     }
+
+    // private function getAgentDetails(string $output): array
+    // {
+    //     $pattern = '/SIP\/(\d+)\s+\((.*?)\)\s+\((.*?)\)/';
+    //     preg_match_all($pattern, $output, $matches, PREG_SET_ORDER);
+    //     $filteredMatches = array_filter($matches, function ($match) {
+    //         return $match[3] !== "Unavailable" && $match[3] !== 'Invalid';
+    //     });
+    //     $filteredMatches = collect($filteredMatches)
+    //     ->unique(fn($match) => $match[1])
+    //     ->values()
+    //     ->all();
+    //     $agentDetails = [];
+    //     foreach ($filteredMatches as $match) {
+    //         $extension = $match[1];
+    //         $ringinuseStatus = $match[2];
+    //         $callStatus = $match[3];
+    //         $user = DB::table('usersv2')->where('extension', $extension)->first();
+    //         if ($user) {
+                
+    //             $call = DB::table('calls')->where('user_id', $user->id)->orderBy('start', 'desc')->first();
+    //             $callState = $call && isset($call->end) ? 'Call finished' : 'Call in progress';
+    //             $command = "rasterisk -rx 'sip show peers' |grep $extension";
+    //             $output = $this->getSSHOutput($command);
+    //             if (!$output) {
+    //                 return back()->withErrors(['error' => 'Failed to connect to the server.']);
+    //             }
+    //             preg_match('/\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b/', $output, $matches);
+    //             if (!empty($matches)) {
+    //                 $ipUser = $matches[0];
+    //             } else {
+    //                 $ipUser = 'Not IP';
+    //             }
+    //             $agentDetails[] = [
+    //                 'call_id' => $call->id ?? null,
+    //                 'extension' => $extension,
+    //                 'name' => $user->name,
+    //                 'call_state' => $callState,
+    //                 'state' => $callStatus,
+    //                 'ipUser' => $ipUser,
+    //             ];
+    //         } else {
+    //             $agentDetails[] = [
+    //                 'extension' => $extension,
+    //                 'message' => 'User Info not found',
+    //                 'state' => $callStatus,
+    //             ];
+    //         }
+    //     }
+    //     return $agentDetails;
+    // }
 
     
 
