@@ -37,6 +37,11 @@
                         {{ $agent['duration1'] }} / {{ $agent['duration2'] }}
                     @endif
                 </td>
+                <td class="px-6 py-4">
+                    <button>
+                        <img src="{{asset('images/editButton.svg')}}" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="">
+                    </button>
+                </td>
             </tr>
         @endforeach
     @endif
