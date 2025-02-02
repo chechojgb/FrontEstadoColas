@@ -17,39 +17,41 @@
     <div class="flex p-4 rounded-lg bg-gray-50 " id="profile" role="tabpanel" aria-labelledby="profile-tab">
         <!-- Table Container -->
         <div class="w-full pr-4" >
-            <p>
-                @php
-                    $operation = null;
-                    
-                    if (session('operationIndex')) {
-                        $operationIndex = session('operationIndex') -1 ;
-                        $operation = \App\Http\Controllers\VicidialController::OPERATION_OPTIONS[$operationIndex] ?? $operationIndex;
-                    } elseif (session('campaignIndex')) {
-                        $campaignIndex = session('campaignIndex') - 1;
-                        $operation = \App\Http\Controllers\VicidialController::CAMPAIGN_OPTIONS[$campaignIndex] ?? $campaignIndex;
-                    }
-                @endphp
-                {{ $operation }}
-            </p>
-            <div class="max-w-lg ml-auto mb-4">
-                <div class="flex">
-                    {{-- Searchh --}}
-                    <div class="relative w-full flex items-center bg-gray-100 rounded-t-lg shadow-sm" style="border-bottom: 1px solid black">
-                        <button type="button" class="p-3 text-gray-800">
-                            <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
-                            </svg>
-                            <span class="sr-only">Search</span>
-                        </button>
-                        <input type="search" id="search-dropdown" class="block w-full bg-transparent text-gray-800 border-0 focus:ring focus:ring-blue-300 focus:outline-none focus:border-blue-500 transition appearance-none p-3" placeholder="Search" required  />
-                       <x-info-popover/>
+            <div class="flex justify-between ">
+                <h2 class="text-xl font-bold mb-4 pt-4">
+                    @php
+                        $operation = null;
+                        
+                        if (session('operationIndex')) {
+                            $operationIndex = session('operationIndex') -1 ;
+                            $operation = \App\Http\Controllers\VicidialController::OPERATION_OPTIONS[$operationIndex] ?? $operationIndex;
+                        } elseif (session('campaignIndex')) {
+                            $campaignIndex = session('campaignIndex') - 1;
+                            $operation = \App\Http\Controllers\VicidialController::CAMPAIGN_OPTIONS[$campaignIndex] ?? $campaignIndex;
+                        }
+                    @endphp
+                    {{ $operation }}
+                </h2>
+                <div class="max-w-lg w-1/2 mb-4">
+                    <div class="flex">
+                        {{-- Searchh --}}
+                        <div class="relative w-full flex items-center bg-gray-100 rounded-t-lg shadow-sm" style="border-bottom: 1px solid black">
+                            <button type="button" class="p-3 text-gray-800">
+                                <svg class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z" />
+                                </svg>
+                                <span class="sr-only">Search</span>
+                            </button>
+                            <input type="search" id="search-dropdown" class="block w-full bg-transparent text-gray-800 border-0 focus:ring focus:ring-blue-300 focus:outline-none focus:border-blue-500 transition appearance-none p-3" placeholder="Search" required  />
+                           <x-info-popover/>
+                        </div>
+                        
                     </div>
-                    
                 </div>
             </div>
             
-
-            <table class="w-full text-sm text-left rtl:text-right text-gray-500 text-gray-400 sm:rounded-lg rounded-lg border-collapse border-spacing-0">
+            {{-- min-w-full table-auto border-collapse rounded-lg overflow-hidden --}}
+            <table class="overflow-hidden w-full text-sm text-left rtl:text-right text-gray-500 text-gray-400  rounded-lg border-collapse border-spacing-0">
                 <thead class="text-xs text-white uppercase bg-[#00acc1] text-white bg-soul-1 border-none sm:rounded-lg">
                     <tr>
                         <th scope="col" class="px-6 py-3 border-none">
@@ -69,6 +71,8 @@
                         </th>
                         <th scope="col" class="px-6 py-3">
                             {{__('Management times')}}
+                        </th>
+                        <th scope="col" class="px-6 py-3">
                         </th>
                     </tr>
                 </thead>
@@ -110,6 +114,11 @@
                                     @if (isset($agent['call_state']))
                                         {{ $agent['duration1'] }} / {{ $agent['duration2'] }}
                                     @endif
+                                </td>
+                                <td class="px-6 py-4">
+                                    <button>
+                                        <img src="{{asset('images/editButton.svg')}}"  alt="editAgent{{ $agent['name'] }}">
+                                    </button>
                                 </td>
                             </tr>
                         @endforeach
