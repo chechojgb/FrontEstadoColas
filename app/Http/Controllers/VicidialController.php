@@ -271,6 +271,14 @@ class VicidialController extends Controller
             preg_match_all("/(?:SIP\/\S+\s+)?\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+(\d{2}:\d{2}:\d{2})\s+$extension\b/", $output, $durations);
             $duration1 = $durations[1][0] ?? 'NA';
             $duration2 = $durations[1][1] ?? 'NA';
+
+            if ($duration1 !== 'NA' && $duration2 !== 'NA') {
+                $time1 = strtotime("1970-01-01 $duration1 UTC");
+                $time2 = strtotime("1970-01-01 $duration2 UTC");
+                $inQueue = $time2 - $time1;
+            } else {
+                $inQueue = $duration1;
+            }
             // dd($durations[1][0] ?? 'Not Available');
             return [
                 'call_id' => optional($call)->id,
@@ -281,6 +289,7 @@ class VicidialController extends Controller
                 'ipUser' => $ipUser,
                 'duration1' => $duration1,
                 'duration2' => $duration2,
+                'inQueue' => $inQueue,
             ];
         })->all();
 
