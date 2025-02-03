@@ -22,7 +22,7 @@
                 <td class="px-6 py-4">
                     @if (isset($agent['call_state']))
                         @if ($agent['call_state'] == 'Call finished' && 
-                            ($agent['duration1'] != "NA" || $agent['duration2'] != "NA"))
+                            ($agent['duration1'] != "NA" || $agent['duration2'] != "NA") && $agent['call_state'] != 'Not in use')
                             {{ 'In transfer' }} 
                         @else
                             {{ $agent['call_state'] }} 
@@ -34,13 +34,42 @@
                 </td>
                 <td class="px-6 py-4">
                     @if (isset($agent['call_state']))
-                        {{ $agent['duration1'] }} / {{ $agent['duration2'] }}
+                        {{-- {{ $agent['inQueue'] }} / --}}
+                        {{ $agent['duration2'] }}
                     @endif
                 </td>
-                <td class="px-6 py-4">
+                <td class="px-6 py-4 flex">
                     <button>
-                        <img src="{{asset('images/editButton.svg')}}" class="img-fluid ${3|rounded-top,rounded-right,rounded-bottom,rounded-left,rounded-circle,|}" alt="">
+                        <img src="{{ asset('images/editButton.svg') }}" alt="editAgent{{ $agent['name'] ?? '' }}">
                     </button>
+                    <div class="pt-2">
+                        @php
+                            $duration2 = $agent['duration2'] ?? '00:00:00';
+                            $timeInSeconds = strtotime("1970-01-01 " . $duration2 . " UTC") - strtotime("1970-01-01 00:00:00 UTC");
+
+                            if ($agent['state'] == 'Not in use') {
+                                $buttonstatus = 'bg-gray-200';
+                                $idStatus = 'notUserStatus';
+                            } elseif ($timeInSeconds <= 600) {
+                                $buttonstatus = 'bg-green-500';
+                                $idStatus = 'activeStatus';
+                            } elseif ($timeInSeconds >= 600 && $timeInSeconds <= 900) { 
+                                $buttonstatus = 'bg-yellow-500';
+                                $idStatus = 'activeStatus';
+                            } elseif ($timeInSeconds >= 900 && $timeInSeconds <= 1200) { 
+                                $buttonstatus = 'bg-orange-500';
+                                $idStatus = 'activeStatus';
+                            } elseif ($timeInSeconds > 1200) { 
+                                $buttonstatus = 'bg-red-500';
+                                $idStatus = 'activeStatus';
+                            } else { 
+                                $buttonstatus = 'bg-gray-200';
+                                $idStatus = 'notUserStatus';
+                            }
+
+                        @endphp
+                        <span class="flex w-3 h-3 me-3  rounded-full ml-4 pt-2 {{ $buttonstatus }} {{$idStatus}}" ></span>
+                    </div>
                 </td>
             </tr>
         @endforeach

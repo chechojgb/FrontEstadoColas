@@ -6,3 +6,12 @@
 body {
     font-family: 'Poppins', sans-serif;
 }
+
+.activeStatus {  
+    opacity:1;
+    transition: opacity .5s;
+}
+
+.activeStatus.fade {
+    opacity:0;
+}
