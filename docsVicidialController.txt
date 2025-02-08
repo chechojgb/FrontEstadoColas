@@ -1,0 +1,198 @@
+Documentación del Controlador VicidialController
+
+Introducción
+
+Este controlador gestiona la interacción con el servidor Vicidial a través de comandos SSH y proporciona información sobre las campañas y agentes en cola. Además, permite filtrar datos según campañas u operaciones.
+
+Constantes Definidas
+
+CAMPAIGN_OPTIONS
+
+Lista de campañas disponibles en Vicidial.
+
+OPERATION_OPTIONS
+
+Lista de tipos de operaciones disponibles.
+
+Métodos:
+
+showCampaigns()
+
+Descripción:
+Muestra la vista campaigns con las opciones de campañas y operaciones disponibles.
+
+Retorno:
+Devuelve la vista campaigns con los datos de las constantes CAMPAIGN_OPTIONS y OPERATION_OPTIONS.
+
+
+
+
+
+executeCommand(Request $request)
+
+Descripción:
+Ejecuta comandos en el servidor Vicidial según la campaña u operación seleccionada.
+
+Flujo:
+
+Verifica si el request contiene campaign o operation.
+
+Valida el parámetro recibido.
+
+Genera el comando adecuado para ejecutarlo en el servidor mediante SSH.
+
+Extrae y procesa la información del servidor.
+
+Retorna la vista campaigns con los resultados obtenidos.
+
+Parámetros:
+
+Request $request: Contiene la campaña u operación seleccionada por el usuario.
+
+Retorno:
+Devuelve la vista campaigns con la información de agentes, llamadas en cola y resumen de miembros en cola.
+
+
+
+
+
+Métodos Privados:
+
+validateCampaign(Request $request)
+
+Descripción:
+Valida que el request contenga una campaña válida.
+
+Retorno:
+Un array con la campaña validada.
+
+
+
+validateOperation(Request $request)
+
+Descripción:
+Valida que el request contenga una operación válida.
+
+Retorno:
+Un array con la operación validada.
+
+
+
+
+getSSHOutput(string $command)
+
+Descripción:
+Establece una conexión SSH al servidor y ejecuta el comando recibido.
+
+Parámetros:
+
+string $command: Comando a ejecutar en el servidor.
+
+Retorno:
+Devuelve la salida del comando en formato string o null si la conexión falla.
+
+
+
+
+removeAnsiCharacters(string $output)
+
+Descripción:
+Limpia caracteres ANSI de la salida del servidor.
+
+Parámetros:
+
+string $output: Salida con caracteres ANSI.
+
+Retorno:
+Salida sin caracteres ANSI.
+
+
+
+
+extractCallsInQueue(string $output)
+
+Descripción:
+Extrae la cantidad de llamadas en cola.
+
+Parámetros:
+
+string $output: Salida procesada del servidor.
+
+Retorno:
+Array con la información de llamadas en cola.
+
+
+
+
+extractQueueMembersSummary(string $output)
+
+Descripción:
+Extrae el resumen de los miembros en la cola.
+
+Parámetros:
+
+string $output: Salida procesada del servidor.
+
+Retorno:
+Array con el resumen de los miembros en la cola.
+
+
+
+
+extractQueueAll(string $output)
+
+Descripción:
+Extrae información de todas las colas.
+
+Parámetros:
+
+string $output: Salida procesada del servidor.
+
+Retorno:
+Array con información de todas las colas disponibles.
+
+
+
+
+getAgentDetails(string $output)
+
+Descripción:
+Obtiene detalles de los agentes activos.
+
+Parámetros:
+
+string $output: Salida procesada del servidor.
+
+Retorno:
+Array con información de los agentes activos, incluyendo extensión, estado y datos de llamadas.
+
+
+
+
+parseQueueOutput(string $output)
+
+Descripción:
+Procesa la salida del servidor para extraer datos estructurados sobre las colas de llamadas.
+
+Parámetros:
+
+string $output: Salida en bruto del comando SSH.
+
+Retorno:
+Un array con información organizada sobre las colas de llamadas.
+
+
+
+
+parseAgentOutput(string $output)
+
+Descripción:
+Extrae y organiza la información sobre los agentes activos y su estado en Vicidial.
+
+Parámetros:
+
+string $output: Salida en bruto del comando SSH.
+
+Retorno:
+Array con detalles de los agentes, como su estado, duración de llamadas y extensión.
+

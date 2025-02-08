@@ -200,3 +200,5 @@ document.addEventListener('DOMContentLoaded', function () {
 
     setInterval(loadContent, REFRESH_RATE * 1000); 
 });
+
+
