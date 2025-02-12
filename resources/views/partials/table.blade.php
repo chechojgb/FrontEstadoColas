@@ -73,16 +73,16 @@
                 </td>
             </tr>
 
-            {{-- Si el tiempo es mayor a 10 minutos, agregamos un toast con JS --}}
-            @if ($timeInSeconds > 600)
+            @if ($timeInSeconds > 990)
                 <script>
                     document.addEventListener("DOMContentLoaded", function () {
                         addToast("{{ $agent['name'] }}", "{{ $agent['duration2'] }}");
                     });
+                    
                 </script>
             @endif
         @endforeach
     @endif
-    
+
 </tbody>
 
