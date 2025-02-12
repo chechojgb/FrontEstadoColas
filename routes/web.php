@@ -25,3 +25,6 @@ Route::get('/real-time-table-refresh', [VicidialController::class, 'refreshTable
 Route::get('/real-time-stateInfo-refresh', [VicidialController::class, 'refreshStateInfo'])->name('real-time-stateInfo-refresh');
 Route::get('/real-time-queueDetail-refresh', [VicidialController::class, 'refreshQueueDetail'])->name('real-time-queueDetail-refresh');
 Route::get('/real-time-allCampaings-refresh', [VicidialController::class, 'refreshAllCampaings'])->name('real-time-allCampaings-refresh');
+
+
+Route::get('/real-time-agent-data', [VicidialController::class, 'getAgentData']);

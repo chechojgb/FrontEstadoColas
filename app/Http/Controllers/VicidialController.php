@@ -74,6 +74,7 @@ class VicidialController extends Controller
 
         if ($request->has('campaign')) {
             $validated = $this->validateCampaign($request);
+            // dd($validated);
             $campaignIndex = $validated['campaign'];
             $selectedCampaign = self::CAMPAIGN_OPTIONS[$campaignIndex - 1];
             session(['campaignIndex' => $campaignIndex, 'operationIndex' => null]);
@@ -196,16 +197,29 @@ class VicidialController extends Controller
         return preg_replace($ansiEscape, '', $output);
     }
 
+    // private function extractCallsInQueue(string $output): array
+    // {
+    //     $ansiEscape = '/\x1B\[.*?m/';
+    //     $cleanOutput = preg_replace($ansiEscape, '', $output);
+    //     $queueCallsPattern = '/\d+\.\s+SIP\/\S+\s+\(.*?\)/m';
+    //     preg_match_all($queueCallsPattern, $cleanOutput, $matches);
+
+    //     return !empty($matches[0]) ? $matches[0] : ['No calls in queue found.'];
+
+    // }
+
     private function extractCallsInQueue(string $output): array
     {
         $ansiEscape = '/\x1B\[.*?m/';
         $cleanOutput = preg_replace($ansiEscape, '', $output);
-        $queueCallsPattern = '/\d+\.\s+SIP\/\S+\s+\(.*?\)/m';
+        
+        // Nueva expresión regular que captura IAX2 y SIP
+        $queueCallsPattern = '/\d+\.\s+(?:SIP|IAX2)\/\S+\s+\(.*?\)/m';
         preg_match_all($queueCallsPattern, $cleanOutput, $matches);
 
         return !empty($matches[0]) ? $matches[0] : ['No calls in queue found.'];
-
     }
+
 
     private function extractQueueMembersSummary(string $output): array
     {
@@ -472,5 +486,30 @@ class VicidialController extends Controller
     }
 
     
+
+
+
+
+
+
+
+
+    public function getAgentData()
+    {
+        $campaignIndex = session('campaignIndex');
+        if ($campaignIndex === null) {
+            $operationIndex = session('operationIndex');
+            $agentDetails = $this->getAgentDetailsForOperation($operationIndex);
+        } else {
+            $agentDetails = $this->getAgentDetailsForCampaign($campaignIndex);
+        }
+
+        if (is_null($agentDetails)) {
+            return response()->json(['error' => 'Failed to connect to the server.'], 500);
+        }
+
+        return response()->json($agentDetails);
+    }
+
 
 }
