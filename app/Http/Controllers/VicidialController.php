@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use phpseclib3\Net\SSH2;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
+
 
 class VicidialController extends Controller
 {
@@ -152,6 +154,8 @@ class VicidialController extends Controller
         //     'Slowest Process' => $slowestProcess,
         // ]);
 
+        $graphics = $this->graphicsAnalict();
+        $graphicsASandTMO = $this->graphicsAnalictGetASAandTMO();
         return view('campaigns', [
             'campaign' => $selectedCampaign,
             'agentDetails' => $agentDetails,
@@ -159,7 +163,9 @@ class VicidialController extends Controller
             'queueMembersSummary' => $queueMembersSummary,
             'membersSummaryAll' => $this->extractQueueAll($allCampOutput),
             'campaignOptions' => VicidialController::CAMPAIGN_OPTIONS,
-            'operationOptions' => self::OPERATION_OPTIONS
+            'operationOptions' => self::OPERATION_OPTIONS,
+            'data' => json_encode($graphics),
+            'dataASAandTMO' => json_encode($graphicsASandTMO)
         ]);
     }
 
@@ -486,9 +492,77 @@ class VicidialController extends Controller
     }
 
     
+    private function graphicsAnalict()
+    {
+        $points = [];
+
+        $noAnswer = DB::table('calls')
+            ->whereNull('user_id')
+            ->where('hold_time', '<=', 0)
+            ->whereDate('start', Carbon::today())
+            ->count();
+
+        $answered = DB::table('calls')
+            ->whereNotNull('user_id')
+            ->where('hold_time', '>=', 0)
+            ->whereDate('start', Carbon::today()) 
+            ->count();
 
 
+        $points[] = ['name' => 'No Contestadas', 'y' => $noAnswer];
+        $points[] = ['name' => 'Contestadas', 'y' => $answered];
 
+        return $points;
+    }
+
+
+    private function graphicsAnalictGetASAandTMO()
+    {
+        $graphicsData = [];
+    
+        // Cálculo del ASA
+        $ASA = DB::table('calls')
+            ->whereNotNull('user_id')
+            ->whereDate('start', Carbon::today())
+            ->avg('queue_time') ?? 0;
+    
+        // Cálculo del TMO
+        $TMO = DB::table('calls')
+            ->whereNotNull('user_id')
+            ->whereDate('start', Carbon::today())
+            ->avg(DB::raw('hold_time + muted_time + queue_time')) ?? 0;
+    
+        // Agregamos los resultados a la estructura que Highcharts espera
+        $graphicsData[] = [
+            'name' => 'ASA',
+            'color' => 'rgba(126,86,134,.9)', // Color personalizado
+            'data' => [$ASA], // Valor de ASA
+            'pointPadding' => 0.4, // Espaciado dentro de la columna
+            'pointPlacement' => -0.2 // Desplazamiento de la columna
+        ];
+    
+        $graphicsData[] = [
+            'name' => 'TMO',
+            'color' => 'rgba(93, 141, 203, 0.8)', // Color personalizado
+            'data' => [$TMO], // Valor de TMO
+            'pointPadding' => 0.4, // Espaciado dentro de la columna
+            'pointPlacement' => 0.2 // Desplazamiento de la columna
+        ];
+    
+        return $graphicsData;
+    }
+    
+
+    private function graphicsAnalictGetNS($totalCalls)
+    {
+        $ns = DB::table('calls')
+            ->whereNotNull('user_id')
+            ->where('queue_time', '<=', 20)
+            ->whereDate('start', Carbon::today())
+            ->count();
+
+        return $totalCalls > 0 ? ($ns * 100) / $totalCalls : 0;
+    }
 
 
 

@@ -14,10 +14,8 @@ use App\Http\Controllers\VicidialController;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
+Route::get('/', [VicidialController::class, 'showCampaigns'])->name('campaigns');
 Route::get('/campaigns', [VicidialController::class, 'showCampaigns'])->name('campaigns');
 Route::post('/execute', [VicidialController::class, 'executeCommand'])->name('execute.command');
 
