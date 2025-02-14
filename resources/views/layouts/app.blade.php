@@ -21,6 +21,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
 
         <script src="https://unpkg.com/@popperjs/core@2"></script>
+        <script src="https://code.highcharts.com/highcharts.js"></script>
 
 
 
@@ -45,6 +46,10 @@
     
       
     </body>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     
 
 
