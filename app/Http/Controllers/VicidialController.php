@@ -62,7 +62,7 @@ class VicidialController extends Controller
 
     public function showCampaigns()
     {
-        return view('campaigns', ['campaigns' => self::CAMPAIGN_OPTIONS, 'operations' => self::OPERATION_OPTIONS] );
+        return view('index', ['campaigns' => self::CAMPAIGN_OPTIONS, 'operations' => self::OPERATION_OPTIONS] );
     }
 
 
@@ -156,7 +156,7 @@ class VicidialController extends Controller
 
         $graphics = $this->graphicsAnalict();
         $graphicsASandTMO = $this->graphicsAnalictGetASAandTMO();
-        return view('campaigns', [
+        return view('index', [
             'campaign' => $selectedCampaign,
             'agentDetails' => $agentDetails,
             'callsInQueue' => $callsInQueue,
