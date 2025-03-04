@@ -1,12 +1,6 @@
-@extends('layouts.app')
-
-@section('content')
-
-
-
 <div id="indexPartial">
 
-    
+
     <div class="mb-4 border-b border-gray-200 border-gray-700">
         <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" id="default-tab" data-tabs-toggle="#default-tab-content" role="tablist">
             <li class="me-2" role="presentation">
@@ -250,7 +244,7 @@
     
             </div>
     
-            {{-- <div class="flex flex-wrap gap-4 mt-8 mb-8">
+            <div class="flex flex-wrap gap-4 mt-8 mb-8">
                 <div id="containerGraphics"> </div>
                 <div id="containerGraphicsTMOandASA"></div>
         
@@ -259,15 +253,9 @@
                     var chartDataTMO = @json($dataASAandTMO ?? 'Not data available');
                     console.log("Datos enviados al JS:", chartData);
                 </script>
-            </div> --}}
+            </div>
     
         </div>
     
     </div>
 </div>
-
-
-
-
-
-@endsection
