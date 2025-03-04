@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', function () {
         container.appendChild(toast);
 
         //DELETE
-        setTimeout(() => toast.remove(), 10000);
+        setTimeout(() => toast.remove(), 5000);
     }
 
     function closeToast(button) {
