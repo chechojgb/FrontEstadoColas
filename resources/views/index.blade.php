@@ -166,8 +166,8 @@
                         
                                 container.appendChild(toast);
                         
-                                // Eliminar automáticamente después de 5 segundos
-                                setTimeout(() => toast.remove(), 10000);
+                                // Delete before  5 seconds
+                                setTimeout(() => toast.remove(), 5000);
                             }
                         
                             function closeToast(button) {
