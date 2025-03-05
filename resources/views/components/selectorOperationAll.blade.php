@@ -15,7 +15,7 @@
         </li>
         <li>
             <div class="flex items-center">
-                <input checked id="checkbox-item-2" type="checkbox" data-campaigns="4,5,6,7,8,9,10,11,12,13,14,15,16,23" class="campaign-checkbox w-4 h-4 text-[#00acc1] bg-gray-100 border-[#00acc1] rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2">
+                <input checked id="checkbox-item-2" type="checkbox" data-campaigns="4,6,7,8,9,10,11,12,13,14,15" class="campaign-checkbox w-4 h-4 text-[#00acc1] bg-gray-100 border-[#00acc1] rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2">
                 <label for="checkbox-item-2" class="ms-2 text-sm font-medium text-gray-900">Formalities</label>
             </div>
         </li>
@@ -27,7 +27,7 @@
         </li>
         <li>
             <div class="flex items-center">
-                <input checked id="checkbox-item-4" type="checkbox" data-campaigns="1,2,3" class="campaign-checkbox w-4 h-4 text-[#00acc1] bg-gray-100 border-[#00acc1] rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2">
+                <input checked id="checkbox-item-4" type="checkbox" data-campaigns="1,2,3,5,16,23" class="campaign-checkbox w-4 h-4 text-[#00acc1] bg-gray-100 border-[#00acc1] rounded-sm focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2">
                 <label for="checkbox-item-3" class="ms-2 text-sm font-medium text-gray-900">Retention</label>
             </div>
         </li>
