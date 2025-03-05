@@ -88,9 +88,9 @@ class VicidialController extends Controller
 
             $operationQueues = [
                 1 => [17, 18, 19, 20, 21, 22, 24, 25, 26],
-                2 => [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 23],
+                2 => [4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
                 3 => [27, 28, 29, 30, 31, 32, 33, 34, 35, 37],
-                4 => [1, 2, 3],
+                4 => [1, 2, 3, 5, 16, 23],
             ];
 
             if (!isset($operationQueues[$operationIndex])) {
@@ -386,9 +386,9 @@ class VicidialController extends Controller
     {
         $operationQueues = [
             1 => [17, 18, 19, 20, 21, 22, 24, 25, 26],
-            2 => [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 23],
+            2 => [4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
             3 => [27, 28, 29, 30, 31, 32, 33, 34, 35, 37],
-            4 => [1, 2, 3],
+            4 => [1, 2, 3, 5, 16, 23],
         ];
         if (isset($operationQueues[$operationIndex])) {
             $queues = $operationQueues[$operationIndex];
@@ -450,9 +450,9 @@ class VicidialController extends Controller
             $operationIndex = session('operationIndex');
             $operationQueues = [
                 1 => [17, 18, 19, 20, 21, 22, 24, 25, 26],
-                2 => [4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 23],
+                2 => [4, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
                 3 => [27, 28, 29, 30, 31, 32, 33, 34, 35, 37],
-                4 => [1, 2, 3],
+                4 => [1, 2, 3, 5, 16, 23],
             ];
             if (isset($operationQueues[$operationIndex])) {
                 $queues = $operationQueues[$operationIndex];

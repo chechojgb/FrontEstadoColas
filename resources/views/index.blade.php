@@ -166,7 +166,7 @@
                         
                                 container.appendChild(toast);
                         
-                                // Delete before  5 seconds
+
                                 setTimeout(() => toast.remove(), 5000);
                             }
                         
