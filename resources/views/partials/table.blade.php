@@ -1,5 +1,4 @@
 <tbody id="agent-table">
-    {{-- <div id="toast-container" class="fixed top-5 left-5 space-y-2 z-50 flex flex-col"></div> --}}
     @if (empty($agentDetails))
         <tr>
             <td colspan="10" class="px-6 py-4 text-center">{{ __('No data available') }}.</td>
