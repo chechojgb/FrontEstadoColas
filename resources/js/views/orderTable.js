@@ -116,7 +116,7 @@ window.restoreSorting = function() {
 
     columnIndex = parseInt(columnIndex);
 
-    console.log(`Restaurando orden en columna ${columnIndex} con orden ${order} y tipo ${type}`);
+    // console.log(`Restaurando orden en columna ${columnIndex} con orden ${order} y tipo ${type}`);
 
     window.lastSortedColumn = columnIndex;
     window.lastSortOrder = order;

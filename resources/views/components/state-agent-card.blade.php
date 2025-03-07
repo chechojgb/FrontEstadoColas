@@ -1,9 +1,12 @@
 @php
     $color = $colors[$state] ?? '#000'; 
-    $isTotalAgents = $state === "Total_agents"; 
+    $isTotalAgents = $state === "Total agents"; 
 @endphp
 
-<div class="relative flex flex-col min-w-0 break-words bg-white shadow-md rounded-2xl bg-clip-border cursor-pointer hover:shadow-xl hover:bg-blue-100 transition-all duration-300 mt-2 mb-2">
+<div 
+    class="relative flex flex-col min-w-0 break-words bg-white shadow-md rounded-2xl bg-clip-border cursor-pointer hover:shadow-xl hover:bg-blue-100 transition-all duration-300 mt-2 mb-2 state-button"
+    data-state="{{ ucfirst($state) }}"
+>
     <div class="flex-auto p-4">
         <div class="flex flex-row -mx-3">
             <div class="flex items-center justify-center w-12 h-12 rounded-full text-white text-xl mr-4 ml-2" style="background-color: {{ $color }}">
@@ -16,8 +19,9 @@
                         <h5 class="mb-0 font-poppins">
                             {{ $count }}
                             <span class="text-sm leading-normal font-weight-bolder text-black font-poppins" style="color: {{ $color }}">
-                                Total Agents conected
+                                Total Agents connected
                             </span>
+                            
                         </h5>
                     @else
                         <p class="mb-0 font-sans text-sm font-semibold leading-normal font-poppins text-gray-400">Users in state</p>

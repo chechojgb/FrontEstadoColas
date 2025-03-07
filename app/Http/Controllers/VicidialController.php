@@ -154,9 +154,7 @@ class VicidialController extends Controller
         //     'Execution Times' => $executionTimes,
         //     'Slowest Process' => $slowestProcess,
         // ]);
-
-        $graphics = $this->graphicsAnalict();
-        $graphicsASandTMO = $this->graphicsAnalictGetASAandTMO();
+        // dd($agentDetails);
         return view('index', [
             'campaign' => $selectedCampaign,
             'agentDetails' => $agentDetails,
@@ -165,8 +163,6 @@ class VicidialController extends Controller
             'membersSummaryAll' => $this->extractQueueAll($allCampOutput),
             'campaignOptions' => VicidialController::CAMPAIGN_OPTIONS,
             'operationOptions' => self::OPERATION_OPTIONS,
-            'data' => json_encode($graphics),
-            'dataASAandTMO' => json_encode($graphicsASandTMO)
         ]);
     }
 
@@ -289,9 +285,34 @@ class VicidialController extends Controller
             preg_match("/^$extension\/$extension\s+([\d\.]+)/m", $output, $ipMatch);
             $ipUser = $ipMatch[1] ?? 'Not IP';
 
-            preg_match_all("/(?:SIP\/\S+\s+)?\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+(\d{2}:\d{2}:\d{2})\s+$extension\b/", $output, $durations);
-            $duration1 = $durations[1][0] ?? 'NA';
-            $duration2 = $durations[1][1] ?? 'NA';
+            preg_match_all(
+                "/(?:SIP\/\S+\s+)?\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+\S+\s+(\d{2}:\d{2}:\d{2})\s+$extension\b/",
+                $output,
+                $durations
+            );
+            
+            if (!empty($durations[1])) {
+                $duration1 = $durations[1][0] ?? 'NA';
+                $duration2 = isset($durations[1][1]) ? $durations[1][1] : 'NA';
+            
+                preg_match_all(
+                    "/(SIP\/\S+)\s+(\S+).*?(\d{2}:\d{2}:\d{2})\s+$extension\b/",
+                    $output,
+                    $lines,
+                    PREG_SET_ORDER
+                );
+            
+                if (count($lines) >= 2) {
+                    $firstLineType = $lines[0][2] ?? ''; 
+                    $secondLineType = $lines[1][2] ?? ''; 
+                    if (strpos($firstLineType, 'trunkinbound') !== false) {
+                        list($duration1, $duration2) = [$duration2, $duration1];
+                    }
+                }
+            } else {
+                $duration1 = 'NA';
+                $duration2 = 'NA';
+            }
 
             if ($duration1 !== 'NA' && $duration2 !== 'NA') {
                 $time1 = strtotime("1970-01-01 $duration1 UTC");
@@ -300,7 +321,10 @@ class VicidialController extends Controller
             } else {
                 $inQueue = $duration1;
             }
-            // dd($durations[1][0] ?? 'Not Available');
+            
+            
+
+            
             return [
                 'call_id' => optional($call)->id,
                 'extension' => $extension,
@@ -311,6 +335,7 @@ class VicidialController extends Controller
                 'duration1' => $duration1,
                 'duration2' => $duration2,
                 'inQueue' => $inQueue,
+                'durations' => $durations
             ];
         })->all();
 
@@ -493,77 +518,77 @@ class VicidialController extends Controller
     }
 
     
-    private function graphicsAnalict()
-    {
-        $points = [];
+    // private function graphicsAnalict()
+    // {
+    //     $points = [];
 
-        $noAnswer = DB::table('calls')
-            ->whereNull('user_id')
-            ->where('hold_time', '<=', 0)
-            ->whereDate('start', Carbon::today())
-            ->count();
+    //     $noAnswer = DB::table('calls')
+    //         ->whereNull('user_id')
+    //         ->where('hold_time', '<=', 0)
+    //         ->whereDate('start', Carbon::today())
+    //         ->count();
 
-        $answered = DB::table('calls')
-            ->whereNotNull('user_id')
-            ->where('hold_time', '>=', 0)
-            ->whereDate('start', Carbon::today()) 
-            ->count();
-
-
-        $points[] = ['name' => 'No Contestadas', 'y' => $noAnswer];
-        $points[] = ['name' => 'Contestadas', 'y' => $answered];
-
-        return $points;
-    }
+    //     $answered = DB::table('calls')
+    //         ->whereNotNull('user_id')
+    //         ->where('hold_time', '>=', 0)
+    //         ->whereDate('start', Carbon::today()) 
+    //         ->count();
 
 
-    private function graphicsAnalictGetASAandTMO()
-    {
-        $graphicsData = [];
+    //     $points[] = ['name' => 'No Contestadas', 'y' => $noAnswer];
+    //     $points[] = ['name' => 'Contestadas', 'y' => $answered];
+
+    //     return $points;
+    // }
+
+
+    // private function graphicsAnalictGetASAandTMO()
+    // {
+    //     $graphicsData = [];
     
-        // Cálculo del ASA
-        $ASA = DB::table('calls')
-            ->whereNotNull('user_id')
-            ->whereDate('start', Carbon::today())
-            ->avg('queue_time') ?? 0;
+    //     // Cálculo del ASA
+    //     $ASA = DB::table('calls')
+    //         ->whereNotNull('user_id')
+    //         ->whereDate('start', Carbon::today())
+    //         ->avg('queue_time') ?? 0;
     
-        // Cálculo del TMO
-        $TMO = DB::table('calls')
-            ->whereNotNull('user_id')
-            ->whereDate('start', Carbon::today())
-            ->avg(DB::raw('hold_time + muted_time + queue_time')) ?? 0;
+    //     // Cálculo del TMO
+    //     $TMO = DB::table('calls')
+    //         ->whereNotNull('user_id')
+    //         ->whereDate('start', Carbon::today())
+    //         ->avg(DB::raw('hold_time + muted_time + queue_time')) ?? 0;
     
-        // Agregamos los resultados a la estructura que Highcharts espera
-        $graphicsData[] = [
-            'name' => 'ASA',
-            'color' => 'rgba(126,86,134,.9)', // Color personalizado
-            'data' => [$ASA], // Valor de ASA
-            'pointPadding' => 0.4, // Espaciado dentro de la columna
-            'pointPlacement' => -0.2 // Desplazamiento de la columna
-        ];
+    //     // Agregamos los resultados a la estructura que Highcharts espera
+    //     $graphicsData[] = [
+    //         'name' => 'ASA',
+    //         'color' => 'rgba(126,86,134,.9)', // Color personalizado
+    //         'data' => [$ASA], // Valor de ASA
+    //         'pointPadding' => 0.4, // Espaciado dentro de la columna
+    //         'pointPlacement' => -0.2 // Desplazamiento de la columna
+    //     ];
     
-        $graphicsData[] = [
-            'name' => 'TMO',
-            'color' => 'rgba(93, 141, 203, 0.8)', // Color personalizado
-            'data' => [$TMO], // Valor de TMO
-            'pointPadding' => 0.4, // Espaciado dentro de la columna
-            'pointPlacement' => 0.2 // Desplazamiento de la columna
-        ];
+    //     $graphicsData[] = [
+    //         'name' => 'TMO',
+    //         'color' => 'rgba(93, 141, 203, 0.8)', // Color personalizado
+    //         'data' => [$TMO], // Valor de TMO
+    //         'pointPadding' => 0.4, // Espaciado dentro de la columna
+    //         'pointPlacement' => 0.2 // Desplazamiento de la columna
+    //     ];
     
-        return $graphicsData;
-    }
+    //     return $graphicsData;
+    // }
     
 
-    private function graphicsAnalictGetNS($totalCalls)
-    {
-        $ns = DB::table('calls')
-            ->whereNotNull('user_id')
-            ->where('queue_time', '<=', 20)
-            ->whereDate('start', Carbon::today())
-            ->count();
+    // private function graphicsAnalictGetNS($totalCalls)
+    // {
+    //     $ns = DB::table('calls')
+    //         ->whereNotNull('user_id')
+    //         ->where('queue_time', '<=', 20)
+    //         ->whereDate('start', Carbon::today())
+    //         ->count();
 
-        return $totalCalls > 0 ? ($ns * 100) / $totalCalls : 0;
-    }
+    //     return $totalCalls > 0 ? ($ns * 100) / $totalCalls : 0;
+    // }
 
 
 
