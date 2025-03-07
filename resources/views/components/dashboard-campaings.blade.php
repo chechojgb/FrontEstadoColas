@@ -3,7 +3,8 @@
         <i class="absolute top-0 right-0 hidden p-4 opacity-50 cursor-pointer fas fa-times text-slate-400 xl:hidden" sidenav-close></i>
         <a class="block px-8 py-6 m-0 text-sm whitespace-nowrap text-slate-700" href="javascript:;" target="_blank">
           <img src="{{asset('images/soul.png')}}" class="inline h-full max-w-full transition-all duration-200 ease-nav-brand max-h-8" alt="main_logo" />
-          <span class="ml-1 font-semibold transition-all duration-200 ease-nav-brand">Soul Reporting </span>
+          <span class="ml-1 font-semibold transition-all duration-200 ease-nav-brand">Mysoul Board </span>
+          <p>by Telecomunication</p>
         </a>
     </div>
     <div class="flex flex-col flex-grow overflow-y-auto">
@@ -34,7 +35,7 @@
                 </div>
 
                 <div class="mt-6 flex">
-                    <x-button/>
+                    <x-button id="campaign_submit_button"/>
                 </div>
             </form>
 
@@ -51,7 +52,7 @@
                 </div>
 
                 <div class="mt-6 flex">
-                    <x-button/>
+                    <x-button id="operation_submit_button" />
                 </div>
             </form>
         </div>
@@ -107,3 +108,34 @@ document.getElementById('campaign_form').addEventListener('submit', function(e) 
 </script>
 
 
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Obtener los formularios y botones
+        const campaignForm = document.getElementById("campaign_form");
+        const operationForm = document.getElementById("operation_form");
+
+        const campaignButton = document.getElementById("campaign_submit_button");
+        const operationButton = document.getElementById("operation_submit_button");
+
+        // Función para ocultar el botón después de enviar
+        function hideButton(button) {
+            if (button) {
+                button.style.display = "none"; // Ocultar el botón completamente
+            }
+        }
+
+        // Evento para el formulario de campaña
+        if (campaignForm) {
+            campaignForm.addEventListener("submit", function() {
+                hideButton(campaignButton);
+            });
+        }
+
+        // Evento para el formulario de operación
+        if (operationForm) {
+            operationForm.addEventListener("submit", function() {
+                hideButton(operationButton);
+            });
+        }
+    });
+</script>

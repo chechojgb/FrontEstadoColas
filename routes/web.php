@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VicidialController;
+use Illuminate\Http\Request;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,9 @@ use App\Http\Controllers\VicidialController;
 Route::get('/', [VicidialController::class, 'showCampaigns'])->name('campaigns');
 Route::get('/campaigns', [VicidialController::class, 'showCampaigns'])->name('campaigns');
 Route::post('/execute', [VicidialController::class, 'executeCommand'])->name('execute.command');
+Route::get('/execute', function () {
+    return redirect('/');
+});
 
 Route::get('/real-time-table-refresh', [VicidialController::class, 'refreshTable'])->name('real-time-table-refresh');
 Route::get('/real-time-stateInfo-refresh', [VicidialController::class, 'refreshStateInfo'])->name('real-time-stateInfo-refresh');
@@ -26,3 +30,12 @@ Route::get('/real-time-allCampaings-refresh', [VicidialController::class, 'refre
 
 
 Route::get('/real-time-agent-data', [VicidialController::class, 'getAgentData']);
+
+
+Route::post('/save-sort-state', function (Request $request) {
+    session([
+        'lastSortedColumn' => $request->input('column'),
+        'lastSortOrder' => $request->input('order')
+    ]);
+    return response()->json(['message' => 'Sort state saved']);
+});

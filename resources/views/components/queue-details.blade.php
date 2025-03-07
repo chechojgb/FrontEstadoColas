@@ -1,7 +1,7 @@
 <div role="tooltip" class="relative z-10 bg-white border border-gray-200 rounded-lg shadow-sm z-950 inline-block max-w-xs p-4 border border-gray-300 rounded-lg shadow-md bg-white">
     <!-- Icono posicionado fuera del contenedor -->
     <div class="absolute -top-6 bottom-1/2 transform -translate-x-1/2 flex justify-center items-center w-12 h-12 rounded-full bg-[#00acc1] border border-gray-300" style="top: -15px; left: 20%">
-        <img src="{{ asset('images/vector.png') }}" alt="">
+        <img src="{{ asset('images/Vector.png') }}" alt="">
     </div>
     
     <!-- Título -->

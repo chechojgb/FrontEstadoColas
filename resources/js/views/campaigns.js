@@ -8,6 +8,7 @@ console.log(REFRESH_RATE);
 //     console.log(`Seconds passed: ${secondsPassed}`);
 // }, 1000);
 
+
 document.addEventListener('DOMContentLoaded', function () {
     let searchValue = '';
 
@@ -34,25 +35,35 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
 
+    let lastSortedColumn = null;
+    let lastSortOrder = "asc"; // Orden inicial
+    
     async function loadTableContent() {
         try {
             const response = await fetch('/real-time-table-refresh');
             if (!response.ok) throw new Error('Error al cargar la tabla');
             const tableContent = await response.text();
+            
             document.querySelector('#agent-table').innerHTML = tableContent;
-
+    
+            // Esperar un poco antes de restaurar la ordenación
+            
+                window.restoreSorting();
+             // Espera 100ms para asegurar que el DOM esté listo
+    
             filterTable();
-            console.log('Tabla actualizada');
+            // console.log('Tabla actualizada');
         } catch (error) {
             console.error('Error al actualizar la tabla:', error);
         }
     }
+    
     async function loadQueueDetail() {
         try {
             const response = await fetch('/real-time-queueDetail-refresh');
             if (!response.ok) throw new Error('Error al cargar los detail queue');
             if (response.ok) {
-                console.log('queueDetail actualizados');
+                // console.log('queueDetail actualizados');
             }
             const iconContent = await response.text();
             document.querySelector('#queueDetail').innerHTML = iconContent;
@@ -66,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function () {
             const response = await fetch('/real-time-stateInfo-refresh');
             if (!response.ok) throw new Error('Error al cargar los  stateInfo');
             if (response.ok) {
-                console.log('stateInfo actualizados');
+                // console.log('stateInfo actualizados');
             }
             const iconContent = await response.text();
             document.querySelector('#stateInfo').innerHTML = iconContent;

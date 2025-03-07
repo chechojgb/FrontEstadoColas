@@ -46,21 +46,26 @@
                             <th scope="col" class="px-6 py-3">
                                 {{__('IP User')}}
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 cursor-pointer" onclick="sortTable(3, 'call_state') ">
                                 {{__('Call State')}}
+                                <img id="arrow-call_state" src="{{ asset('images/uptable.svg') }}" class="inline w-4 h-4 sort-arrow">
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 cursor-pointer" onclick="sortTable(4, 'state')">
                                 {{__('State in asterisk')}}
+                                <img id="arrow-state" src="{{ asset('images/uptable.svg') }}" class="inline w-4 h-4 sort-arrow">
                             </th>
-                            <th scope="col" class="px-6 py-3">
+                            <th scope="col" class="px-6 py-3 cursor-pointer" onclick="sortTableByTime(5)">
                                 {{__('Management times')}}
+                                <img id="arrow-time" src="{{ asset('images/uptable.svg') }}" class="inline w-4 h-4 sort-arrow">
                             </th>
                             <th scope="col" class="px-6 py-3">
                             </th>
                         </tr>
+        
+                        
                     </thead>
                     <tbody id="agent-table">
-                        <div id="toast-container" class="fixed top-5 right-5 space-y-2 z-50 flex flex-col"></div>
+                        {{-- <div id="toast-container" class="fixed top-5 left-5 space-y-2 z-50 flex flex-col"></div> --}}
                         @if (empty($agentDetails))
                             <tr>
                                 <td colspan="10" class="px-6 py-4 text-center">{{ __('No data available') }}.</td>
@@ -125,9 +130,9 @@
                                         @endif
                                     </td>
                                     <td class="px-6 py-4 flex">
-                                        <button>
+                                        {{-- <button>
                                             <img src="{{ asset('images/editButton.svg') }}" alt="editAgent{{ $agent['name'] ?? '' }}">
-                                        </button>
+                                        </button> --}}
                                         <div class="pt-2">
                                             <span class="flex w-3 h-3 me-3 rounded-full ml-4 pt-2 {{ $buttonstatus }} {{$idStatus}}"></span>
                                         </div>
@@ -144,7 +149,7 @@
                             @endforeach
                         @endif
     
-                        <script>
+                        {{-- <script>
                             function addToast(user, time) {
                                 let container = document.getElementById("toast-container");
                         
@@ -175,7 +180,7 @@
                                 toast.classList.add('opacity-0', 'transition-opacity', 'duration-500');
                                 setTimeout(() => toast.remove(), 500);
                             }
-                        </script>
+                        </script> --}}
                     </tbody>
                 </table>
             </div>
