@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     let lastSortedColumn = null;
     let lastSortOrder = "asc"; // Orden inicial
-    
+
     async function loadTableContent() {
         try {
             const response = await fetch('/real-time-table-refresh');
@@ -46,17 +46,23 @@ document.addEventListener('DOMContentLoaded', function () {
             
             document.querySelector('#agent-table').innerHTML = tableContent;
     
-            // Esperar un poco antes de restaurar la ordenación
-            
-                window.restoreSorting();
-             // Espera 100ms para asegurar que el DOM esté listo
+            window.restoreSorting();
     
-            filterTable();
-            // console.log('Tabla actualizada');
+            // 🔥 Aplicar filtro inmediatamente después de actualizar la tabla
+            const searchInput = document.getElementById("search-dropdown");
+            window.filterTable(searchInput.value); 
+    
+            console.log('Tabla actualizada y filtrada por:', searchInput.value);
+    
         } catch (error) {
             console.error('Error al actualizar la tabla:', error);
         }
     }
+    
+
+    
+    
+    
     
     async function loadQueueDetail() {
         try {

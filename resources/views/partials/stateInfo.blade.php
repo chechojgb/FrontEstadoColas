@@ -22,5 +22,5 @@
     <x-state-agent-card :count="$countBusy" state="Busy" :colors="$colors" image="busy"/>
     <x-state-agent-card :count="$countNotInUse" state="Not in use" :colors="$colors" image="not-in-use"/>
     <x-state-agent-card :count="$countRinging" state="Ringing" :colors="$colors" image="rining"/>
-    <x-state-agent-card :count="$totalCount" state="Total_agents" :colors="$colors" image="totalAgents"/>
+    <x-state-agent-card :count="$totalCount" state="Total Agents conected" :colors="$colors" image="totalAgents"/>
 </div>
