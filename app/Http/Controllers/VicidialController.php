@@ -118,6 +118,7 @@ class VicidialController extends Controller
 
         $timing['clean_output_start'] = microtime(true);
         $cleanOutput = $this->removeAnsiCharacters($output);
+        // dd($cleanOutput);
         $timing['clean_output_end'] = microtime(true);
 
         session(['cleanOutput' => $cleanOutput]);
